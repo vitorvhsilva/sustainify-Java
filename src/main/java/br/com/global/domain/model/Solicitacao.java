@@ -1,4 +1,4 @@
-package br.com.global.model;
+package br.com.global.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

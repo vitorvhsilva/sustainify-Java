@@ -1,8 +1,8 @@
-package br.com.global.model;
+package br.com.global.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Sindico {
+public class CadastroSindicoInputDTO {
     @JsonProperty
     private String nomeSindico;
     @JsonProperty
@@ -13,16 +13,25 @@ public class Sindico {
     private String senhaSindico;
     @JsonProperty
     private String telefoneSindico;
+    @JsonProperty
+    private String ruaComunidade;
+    @JsonProperty
+    private String numComunidade;
+    @JsonProperty
+    private String cepComunidade;
 
-    public Sindico() {
+    public CadastroSindicoInputDTO() {
     }
 
-    public Sindico(String nomeSindico, String cpfSindico, String emailSindico, String senhaSindico, String telefoneSindico) {
+    public CadastroSindicoInputDTO(String nomeSindico, String cpfSindico, String emailSindico, String senhaSindico, String telefoneSindico, String ruaComunidade, String numComunidade, String cepComunidade) {
         this.nomeSindico = nomeSindico;
         this.cpfSindico = cpfSindico;
         this.emailSindico = emailSindico;
         this.senhaSindico = senhaSindico;
         this.telefoneSindico = telefoneSindico;
+        this.ruaComunidade = ruaComunidade;
+        this.numComunidade = numComunidade;
+        this.cepComunidade = cepComunidade;
     }
 
     public String getNomeSindico() {
@@ -63,5 +72,29 @@ public class Sindico {
 
     public void setTelefoneSindico(String telefoneSindico) {
         this.telefoneSindico = telefoneSindico;
+    }
+
+    public String getRuaComunidade() {
+        return ruaComunidade;
+    }
+
+    public void setRuaComunidade(String ruaComunidade) {
+        this.ruaComunidade = ruaComunidade;
+    }
+
+    public String getNumComunidade() {
+        return numComunidade;
+    }
+
+    public void setNumComunidade(String numComunidade) {
+        this.numComunidade = numComunidade;
+    }
+
+    public String getCepComunidade() {
+        return cepComunidade;
+    }
+
+    public void setCepComunidade(String cepComunidade) {
+        this.cepComunidade = cepComunidade;
     }
 }

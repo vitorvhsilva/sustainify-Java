@@ -1,4 +1,4 @@
-package br.com.global.model;
+package br.com.global.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -11,18 +11,15 @@ public class Comunidade {
     private String numComunidade;
     @JsonProperty
     private String cepComunidade;
-    @JsonProperty
-    private String bairroComunidade;
 
     public Comunidade() {
     }
 
-    public Comunidade(Long idSindico, String ruaComunidade, String numComunidade, String cepComunidade, String bairroComunidade) {
+    public Comunidade(Long idSindico, String ruaComunidade, String numComunidade, String cepComunidade) {
         this.idSindico = idSindico;
         this.ruaComunidade = ruaComunidade;
         this.numComunidade = numComunidade;
         this.cepComunidade = cepComunidade;
-        this.bairroComunidade = bairroComunidade;
     }
 
     public Long getIdSindico() {
@@ -55,13 +52,5 @@ public class Comunidade {
 
     public void setCepComunidade(String cepComunidade) {
         this.cepComunidade = cepComunidade;
-    }
-
-    public String getBairroComunidade() {
-        return bairroComunidade;
-    }
-
-    public void setBairroComunidade(String bairroComunidade) {
-        this.bairroComunidade = bairroComunidade;
     }
 }
