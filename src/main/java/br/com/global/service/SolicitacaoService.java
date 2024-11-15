@@ -24,4 +24,15 @@ public class SolicitacaoService implements ServicosSolicitacao{
         repositorioSolicitacoes.fecharConexao();
         return solicitacoes;
     }
+
+    @Override
+    public void verificarSeSolicitacaoExiste(Solicitacao solicitacao) {
+        Solicitacao solicitacaoPega = repositorioSolicitacoes.verificarSeSolicitacaoExiste(solicitacao);
+        if (solicitacaoPega.getNumResidenciaSolicitacao() != null) throw new RuntimeException("Solicitação já existe");
+    }
+
+    @Override
+    public void deletarSolicitacao(Long idMorador) {
+
+    }
 }

@@ -27,6 +27,7 @@ public class MoradorService {
         if (idSindico == null) throw new RuntimeException("Comunidade não existe!");
 
         Solicitacao solicitacao = new Solicitacao(idMorador, idSindico, dto.getCepSolicitacao(), dto.getNumResidenciaSolicitacao());
+        servicosSolicitacao.verificarSeSolicitacaoExiste(solicitacao);
 
         repositorioMoradores.persistirMorador(morador, idMorador);
         servicosSolicitacao.persistirSolicitacao(solicitacao);

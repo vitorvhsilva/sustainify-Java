@@ -70,4 +70,29 @@ public class SolicitacaoDAO implements RepositorioSolicitacoes {
 
         return solicitacoes;
     }
+
+    @Override
+    public Solicitacao verificarSeSolicitacaoExiste(Solicitacao solicitacao) {
+        String sqlSelect = "SELECT * FROM TB_SOLICITACAO WHERE num_residencia_solicitacao = ?";
+        Solicitacao solicitacaoPega = new Solicitacao();
+        try {
+            PreparedStatement statement = conexao.prepareStatement(sqlSelect);
+            statement.setString(1, solicitacao.getNumResidenciaSolicitacao());
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                solicitacaoPega.setIdMorador(rs.getLong("id_morador"));
+                solicitacaoPega.setIdSindico(rs.getLong("id_sindico"));
+                solicitacaoPega.setCepSolicitacao(rs.getString("cep_solicitacao"));
+                solicitacaoPega.setNumResidenciaSolicitacao(rs.getString("num_residencia_solicitacao"));
+            }
+
+            statement.close();
+            rs.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return solicitacaoPega;
+    }
 }

@@ -9,4 +9,5 @@ public interface RepositorioSolicitacoes {
     void persistirSolicitacao(Solicitacao solicitacao);
     void fecharConexao();
     List<Solicitacao> pegarSolicitacoesNaComunidadePorCep(String cep);
+    Solicitacao verificarSeSolicitacaoExiste(Solicitacao solicitacao);
 }
