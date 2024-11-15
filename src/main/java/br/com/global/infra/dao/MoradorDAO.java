@@ -54,6 +54,22 @@ public class MoradorDAO implements RepositorioMoradores {
         }
     }
 
+    @Override
+    public void atualizarStatusAtualizacao(Long idMorador) {
+        String sqlUpdate = """
+                UPDATE TB_MORADOR SET solicitacao_aceita_morador = 1 WHERE id_morador = ?
+                """;
+
+        try {
+            PreparedStatement ps = conexao.prepareStatement(sqlUpdate);
+            ps.setLong(1, idMorador);
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void fecharConexao() {
         try {
             conexao.close();

@@ -7,4 +7,5 @@ public interface RepositorioMoradores {
     Long obterProximoId();
     void persistirMorador(Morador morador, Long idMorador);
     void fecharConexao();
+    void atualizarStatusAtualizacao(Long idMorador);
 }

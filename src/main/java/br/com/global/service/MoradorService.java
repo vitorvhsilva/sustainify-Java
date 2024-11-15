@@ -30,5 +30,13 @@ public class MoradorService {
 
         repositorioMoradores.persistirMorador(morador, idMorador);
         servicosSolicitacao.persistirSolicitacao(solicitacao);
+
+        repositorioMoradores.fecharConexao();
+    }
+
+    public void atualizarStatusAtualizacao(Long idMorador) {
+        repositorioMoradores.atualizarStatusAtualizacao(idMorador);
+        repositorioMoradores.fecharConexao();
+
     }
 }
