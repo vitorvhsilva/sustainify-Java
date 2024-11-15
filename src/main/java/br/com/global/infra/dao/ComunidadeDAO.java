@@ -52,6 +52,27 @@ public class ComunidadeDAO implements RepositorioComunidades {
         }
     }
 
+    @Override
+    public Long retornarSindicoPorCep(String cep) {
+        String sqlSelect = "SELECT * FROM TB_COMUNIDADE WHERE cep_comunidade = ?";
+        Long id = null;
+        try {
+            PreparedStatement statement = conexao.prepareStatement(sqlSelect);
+            statement.setString(1, cep);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                id = rs.getLong("id_sindico");
+            }
+
+            statement.close();
+            rs.close();
+        } catch (SQLException e) {
+            throw new RuntimeException("Comunidade não existe!");
+        }
+        return id;
+    }
+
     public void fecharConexao() {
         try {
             conexao.close();

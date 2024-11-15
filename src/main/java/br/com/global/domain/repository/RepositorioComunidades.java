@@ -6,5 +6,6 @@ import br.com.global.domain.model.Sindico;
 public interface RepositorioComunidades {
     Long obterProximoId();
     void persistirComunidade(Comunidade comunidade);
+    Long retornarSindicoPorCep(String cep);
     void fecharConexao();
 }

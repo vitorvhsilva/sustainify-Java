@@ -53,4 +53,14 @@ public class Solicitacao {
     public void setNumResidenciaSolicitacao(String numResidenciaSolicitacao) {
         this.numResidenciaSolicitacao = numResidenciaSolicitacao;
     }
+
+    @Override
+    public String toString() {
+        return "Solicitacao{" +
+                "idMorador=" + idMorador +
+                ", idSindico=" + idSindico +
+                ", cepSolicitacao='" + cepSolicitacao + '\'' +
+                ", numResidenciaSolicitacao='" + numResidenciaSolicitacao + '\'' +
+                '}';
+    }
 }

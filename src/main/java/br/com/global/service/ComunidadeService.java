@@ -15,4 +15,10 @@ public class ComunidadeService implements ServicosComunidade{
         repositorioComunidades.persistirComunidade(comunidade);
         repositorioComunidades.fecharConexao();
     }
+
+    public Long retornarSindicoPorCep(String cep){
+        Long idSindico = repositorioComunidades.retornarSindicoPorCep(cep);
+        repositorioComunidades.fecharConexao();
+        return idSindico;
+    }
 }

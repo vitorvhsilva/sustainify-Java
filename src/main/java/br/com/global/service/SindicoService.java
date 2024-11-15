@@ -18,9 +18,10 @@ public class SindicoService {
     public void persistirSindicoeComunidade(CadastroSindicoInputDTO dto) {
         Long idSindico = repositorioSindicos.obterProximoId();
         Sindico sindico = new Sindico(dto.getNomeSindico(), dto.getCpfSindico(), dto.getEmailSindico(), dto.getSenhaSindico(), dto.getTelefoneSindico());
-        repositorioSindicos.persistirSindico(sindico, idSindico);
 
         Comunidade comunidade = new Comunidade(idSindico, dto.getRuaComunidade(), dto.getNumComunidade(), dto.getCepComunidade());
+
+        repositorioSindicos.persistirSindico(sindico, idSindico);
         servicosComunidade.persistirComunidade(comunidade);
 
         repositorioSindicos.fecharConexao();
