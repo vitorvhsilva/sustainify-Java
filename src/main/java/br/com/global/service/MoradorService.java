@@ -37,6 +37,7 @@ public class MoradorService {
 
     public void atualizarStatusAtualizacao(Long idMorador) {
         repositorioMoradores.atualizarStatusAtualizacao(idMorador);
+        servicosSolicitacao.deletarSolicitacao(idMorador);
         repositorioMoradores.fecharConexao();
 
     }

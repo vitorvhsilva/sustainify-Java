@@ -37,4 +37,19 @@ public class SolicitacoesController {
         }
     }
 
+    @DELETE
+    @Path("/{idMorador}")
+    public Response pegarSolicitacoesNaComunidadePorCep(@PathParam("idMorador") Long idMorador){
+        try {
+            servicosSolicitacao.deletarSolicitacao(idMorador);
+            return Response.status(Response.Status.NO_CONTENT).build();
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            return Response
+                    .status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(e.getMessage()).build();
+        }
+    }
+
 }

@@ -35,7 +35,7 @@ public class MoradorController {
 
     @PUT
     @Path("/status")
-    public Response enviarSolicitacaoDeCadastro(AtualizarStatusMoradorDTO dto){
+    public Response atualizarStatusAtualizacao(AtualizarStatusMoradorDTO dto){
         try {
             moradorService.atualizarStatusAtualizacao(dto.getIdMorador());
             return Response.status(Response.Status.OK).build();

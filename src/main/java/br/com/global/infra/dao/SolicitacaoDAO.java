@@ -95,4 +95,20 @@ public class SolicitacaoDAO implements RepositorioSolicitacoes {
 
         return solicitacaoPega;
     }
+
+    @Override
+    public void deletarSolicitacao(Long idMorador) {
+        String sqlDelete = """
+                DELETE FROM TB_SOLICITACAO WHERE id_morador = ?
+                """;
+
+        try {
+            PreparedStatement ps = conexao.prepareStatement(sqlDelete);
+            ps.setLong(1, idMorador);
+            ps.execute();
+            ps.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

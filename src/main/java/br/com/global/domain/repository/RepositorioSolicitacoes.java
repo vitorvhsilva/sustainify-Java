@@ -10,4 +10,5 @@ public interface RepositorioSolicitacoes {
     void fecharConexao();
     List<Solicitacao> pegarSolicitacoesNaComunidadePorCep(String cep);
     Solicitacao verificarSeSolicitacaoExiste(Solicitacao solicitacao);
+    void deletarSolicitacao(Long idMorador);
 }

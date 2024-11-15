@@ -33,6 +33,7 @@ public class SolicitacaoService implements ServicosSolicitacao{
 
     @Override
     public void deletarSolicitacao(Long idMorador) {
-
+        repositorioSolicitacoes.deletarSolicitacao(idMorador);
+        repositorioSolicitacoes.fecharConexao();
     }
 }
