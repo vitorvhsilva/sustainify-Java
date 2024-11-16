@@ -2,6 +2,7 @@ package br.com.global.controller;
 
 import br.com.global.domain.model.Sindico;
 import br.com.global.dto.CadastroSindicoInputDTO;
+import br.com.global.dto.LoginDTO;
 import br.com.global.service.SindicoService;
 
 import javax.ws.rs.*;
@@ -22,6 +23,23 @@ public class SindicoController {
         try {
             sindicoService.persistirSindicoeComunidade(dto);
             return Response.status(Response.Status.CREATED).build();
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            return Response
+                    .status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(e.getMessage()).build();
+        }
+    }
+
+    @Path("/login")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response fazerLogin(LoginDTO dto){
+        try {
+            Long idSindico = sindicoService.fazerLogin(dto);
+            return Response.status(Response.Status.OK).entity(idSindico).build();
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();

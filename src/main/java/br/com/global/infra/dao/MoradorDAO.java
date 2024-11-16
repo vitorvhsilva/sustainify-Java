@@ -3,6 +3,7 @@ package br.com.global.infra.dao;
 import br.com.global.domain.model.Morador;
 import br.com.global.domain.model.Sindico;
 import br.com.global.domain.repository.RepositorioMoradores;
+import br.com.global.dto.LoginDTO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -103,6 +104,31 @@ public class MoradorDAO implements RepositorioMoradores {
         }
 
         return existe;
+    }
+
+    @Override
+    public Long fazerLogin(LoginDTO dto) {
+        String sqlSelect = "SELECT * FROM TB_MORADOR WHERE email_morador = ? AND senha_morador = ?";
+        Long idMorador = null;
+        try {
+            PreparedStatement statement = conexao.prepareStatement(sqlSelect);
+            statement.setString(1, dto.getEmail());
+            statement.setString(2, dto.getSenha());
+            ResultSet rs = statement.executeQuery();
+
+            if (!rs.next()) {
+                throw new RuntimeException("Login não encontrado!");
+            }
+
+            idMorador = rs.getLong("id_morador");
+
+            statement.close();
+            rs.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return idMorador;
     }
 
     public void fecharConexao() {

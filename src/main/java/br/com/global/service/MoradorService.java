@@ -4,6 +4,7 @@ import br.com.global.domain.model.Morador;
 import br.com.global.domain.model.Solicitacao;
 import br.com.global.domain.repository.RepositorioMoradores;
 import br.com.global.dto.CadastroMoradorInputDTO;
+import br.com.global.dto.LoginDTO;
 import br.com.global.infra.dao.MoradorDAO;
 
 import java.util.regex.Matcher;
@@ -43,7 +44,13 @@ public class MoradorService {
         repositorioMoradores.atualizarStatusAtualizacao(idMorador);
         solicitacaoService.deletarSolicitacao(idMorador);
         repositorioMoradores.fecharConexao();
+    }
 
+
+    public Long fazerLogin(LoginDTO dto) {
+        Long idMorador = repositorioMoradores.fazerLogin(dto);
+        repositorioMoradores.fecharConexao();
+        return idMorador;
     }
 
     private boolean validarEmail(String email) {

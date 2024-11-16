@@ -4,6 +4,7 @@ import br.com.global.domain.model.Comunidade;
 import br.com.global.domain.model.Sindico;
 import br.com.global.domain.repository.RepositorioSindicos;
 import br.com.global.dto.CadastroSindicoInputDTO;
+import br.com.global.dto.LoginDTO;
 import br.com.global.infra.dao.SindicoDAO;
 
 import java.util.regex.Matcher;
@@ -47,6 +48,12 @@ public class SindicoService {
         return sindico;
     }
 
+    public Long fazerLogin(LoginDTO dto) {
+        Long idSindico = repositorioSindicos.fazerLogin(dto);
+        repositorioSindicos.fecharConexao();
+        return idSindico;
+    }
+
     private boolean validarEmail(String email) {
         String emailPattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
         Pattern pattern = Pattern.compile(emailPattern);
@@ -83,5 +90,4 @@ public class SindicoService {
             throw new RuntimeException("CPF inválido! Digite novamente. (Exemplo: 12345678999)");
         }
     }
-
 }

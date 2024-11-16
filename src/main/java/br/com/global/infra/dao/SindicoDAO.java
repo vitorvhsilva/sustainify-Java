@@ -2,6 +2,7 @@ package br.com.global.infra.dao;
 
 import br.com.global.domain.model.Sindico;
 import br.com.global.domain.repository.RepositorioSindicos;
+import br.com.global.dto.LoginDTO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -127,6 +128,31 @@ public class SindicoDAO implements RepositorioSindicos {
             throw new RuntimeException(e);
         }
         return sindico;
+    }
+
+    @Override
+    public Long fazerLogin(LoginDTO dto) {
+        String sqlSelect = "SELECT * FROM TB_SINDICO WHERE email_sindico = ? AND senha_sindico = ?";
+        Long idSindico = null;
+        try {
+            PreparedStatement statement = conexao.prepareStatement(sqlSelect);
+            statement.setString(1, dto.getEmail());
+            statement.setString(2, dto.getSenha());
+            ResultSet rs = statement.executeQuery();
+
+            if (!rs.next()) {
+                throw new RuntimeException("Login não encontrado!");
+            }
+
+            idSindico = rs.getLong("id_sindico");
+
+            statement.close();
+            rs.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return idSindico;
     }
 
     public void fecharConexao() {
