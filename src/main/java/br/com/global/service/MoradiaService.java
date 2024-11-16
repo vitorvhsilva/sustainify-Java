@@ -15,4 +15,10 @@ public class MoradiaService {
         repositorioMoradias.persistirMoradia(moradia);
         repositorioMoradias.fecharConexao();
     }
+
+    public Long pegarMoradiaPorMorador(String numResidencia) {
+        Long idMoradia = repositorioMoradias.pegarMoradiaPorMorador(numResidencia);
+        repositorioMoradias.fecharConexao();
+        return idMoradia;
+    }
 }

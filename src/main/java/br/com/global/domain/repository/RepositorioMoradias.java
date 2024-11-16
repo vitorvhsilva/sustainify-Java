@@ -8,4 +8,5 @@ public interface RepositorioMoradias {
     Long obterProximoId();
     void persistirMoradia(Moradia moradia);
     void fecharConexao();
+    Long pegarMoradiaPorMorador(String numResidencia);
 }

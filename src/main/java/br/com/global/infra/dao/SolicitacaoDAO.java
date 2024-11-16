@@ -49,7 +49,7 @@ public class SolicitacaoDAO implements RepositorioSolicitacoes {
 
     @Override
     public List<Solicitacao> pegarSolicitacoesNaComunidadePorCep(String cep) {
-        String sqlSelect = "SELECT * FROM TB_SOLICITACAO WHERE cep_solicitacao = ?";
+        String sqlSelect = "SELECT * FROM TB_SOLICITACAO WHERE cep_solicitacao = ? AND solicitacao_aceita = 0";
         List<Solicitacao> solicitacoes = new ArrayList<>();
         try {
             PreparedStatement statement = conexao.prepareStatement(sqlSelect);
