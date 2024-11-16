@@ -107,7 +107,7 @@ public class SindicoDAO implements RepositorioSindicos {
     }
 
     @Override
-    public Sindico retornarSindicoPorCpf(Long idSindico) {
+    public Sindico retornarSindicoPorIdSindico(Long idSindico) {
         String sqlSelect = "SELECT * FROM TB_SINDICO WHERE id_sindico = ?";
         Sindico sindico = new Sindico();
         try {

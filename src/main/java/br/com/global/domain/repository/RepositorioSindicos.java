@@ -9,5 +9,5 @@ public interface RepositorioSindicos {
     boolean sindicoExistePorCpf(String cpf);
     boolean sindicoExistePorEmail(String email);
     Long retornarIdDoSindicoPorCpf(String cpf);
-    Sindico retornarSindicoPorCpf(Long idSindico);
+    Sindico retornarSindicoPorIdSindico(Long idSindico);
 }

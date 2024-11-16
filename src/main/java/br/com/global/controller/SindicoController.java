@@ -34,9 +34,9 @@ public class SindicoController {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response retornarSindicoPorCpf(@PathParam("id") Long idSindico){
+    public Response retornarSindicoPorIdSindico(@PathParam("id") Long idSindico){
         try {
-            Sindico sindico = sindicoService.retornarSindicoPorCpf(idSindico);
+            Sindico sindico = sindicoService.retornarSindicoPorIdSindico(idSindico);
             return Response.status(Response.Status.OK).entity(sindico).build();
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());

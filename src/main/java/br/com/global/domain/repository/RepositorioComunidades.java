@@ -9,4 +9,5 @@ public interface RepositorioComunidades {
     Long retornarSindicoPorCep(String cep);
     void fecharConexao();
     boolean verificarSeComunidadeExistePorCep(String cep);
+    Comunidade retornarComunidadePorIdSindico(Long idSindico);
 }

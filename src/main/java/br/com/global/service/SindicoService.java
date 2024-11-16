@@ -41,8 +41,8 @@ public class SindicoService {
     }
 
 
-    public Sindico retornarSindicoPorCpf(Long idSindico) {
-        Sindico sindico = repositorioSindicos.retornarSindicoPorCpf(idSindico);
+    public Sindico retornarSindicoPorIdSindico(Long idSindico) {
+        Sindico sindico = repositorioSindicos.retornarSindicoPorIdSindico(idSindico);
         repositorioSindicos.fecharConexao();
         return sindico;
     }

@@ -99,4 +99,26 @@ public class ComunidadeDAO implements RepositorioComunidades {
         return existe;
     }
 
+    @Override
+    public Comunidade retornarComunidadePorIdSindico(Long idSindico) {
+        String sqlSelect = "SELECT * FROM TB_COMUNIDADE WHERE id_sindico = ?";
+        Comunidade comunidade = new Comunidade();
+        try {
+            PreparedStatement ps = conexao.prepareStatement(sqlSelect);
+            ps.setLong(1, idSindico);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                comunidade.setIdSindico(rs.getLong("id_sindico"));
+                comunidade.setCepComunidade(rs.getString("cep_comunidade"));
+                comunidade.setRuaComunidade(rs.getString("rua_comunidade"));
+                comunidade.setNumComunidade(rs.getString("num_comunidade"));
+            }
+            ps.close();
+            rs.close();
+        }catch(SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return comunidade;
+    }
+
 }

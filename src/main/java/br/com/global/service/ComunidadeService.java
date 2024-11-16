@@ -23,6 +23,13 @@ public class ComunidadeService implements ServicosComunidade{
         return idSindico;
     }
 
+    @Override
+    public Comunidade retornarComunidadePorIdSindico(Long idSindico) {
+        Comunidade comunidade = repositorioComunidades.retornarComunidadePorIdSindico(idSindico);
+        repositorioComunidades.fecharConexao();
+        return comunidade;
+    }
+
     private void validarComunidade(Comunidade comunidade) {
         if (repositorioComunidades.verificarSeComunidadeExistePorCep(comunidade.getCepComunidade())) throw new RuntimeException("Comunidade já existe!");
     }
