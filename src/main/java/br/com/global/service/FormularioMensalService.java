@@ -26,6 +26,9 @@ public class FormularioMensalService {
 
         FormularioMensal formularioMensal = new FormularioMensal(dto.getIdMoradia(), idSindico, dto.getValorContaLuzMensal(),
                 dto.getEnergiaGastaMensal(), dto.getEmissaoCarbonoMensal(), moradia.getNumMoradia(), dto.getMesEmitido(), dto.getAnoEmitido());
+
+        validarFormulario(formularioMensal);
+
         repositorioFormulariosMensal.persistirFormularioMensal(formularioMensal);
         repositorioFormulariosMensal.fecharConexao();
     }
@@ -53,6 +56,11 @@ public class FormularioMensalService {
         repositorioFormulariosMensal.fecharConexao();
 
         return converterFormulariosEmEmissoes(formulariosMensal);
+    }
+
+    private void validarFormulario(FormularioMensal formularioMensal) {
+        FormularioMensal formularioMensalPego = repositorioFormulariosMensal.verificarSeFormularioExiste(formularioMensal);
+        if (formularioMensalPego.getMesEmitido() != null || formularioMensalPego.getAnoEmitido() != null) throw new RuntimeException("Emissão do mês já feita!");
     }
 
     private String converterMes(Integer mesNumero) {

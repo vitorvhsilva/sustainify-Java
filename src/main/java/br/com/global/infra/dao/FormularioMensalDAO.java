@@ -1,6 +1,7 @@
 package br.com.global.infra.dao;
 
 import br.com.global.domain.model.FormularioMensal;
+import br.com.global.domain.model.Solicitacao;
 import br.com.global.domain.repository.RepositorioFormulariosMensal;
 
 import java.sql.Connection;
@@ -156,6 +157,36 @@ public class FormularioMensalDAO implements RepositorioFormulariosMensal {
         }
 
         return formularios;
+    }
+
+    @Override
+    public FormularioMensal verificarSeFormularioExiste(FormularioMensal formularioMensal) {
+        String sqlSelect = "SELECT * FROM TB_FORMULARIO_MENSAL WHERE mes_emitido = ? AND ano_emitido = ?";
+        FormularioMensal formularioMensalPego = new FormularioMensal();
+        try {
+            PreparedStatement statement = conexao.prepareStatement(sqlSelect);
+            statement.setInt(1, formularioMensal.getMesEmitido());
+            statement.setInt(2, formularioMensal.getAnoEmitido());
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                formularioMensalPego.setIdMoradia(rs.getLong("id_moradia"));
+                formularioMensalPego.setIdSindico(rs.getLong("id_sindico"));
+                formularioMensalPego.setValorContaLuzMensal(rs.getDouble("valor_conta_luz_mensal"));
+                formularioMensalPego.setEnergiaGastaMensal(rs.getDouble("energia_gasta_mensal"));
+                formularioMensalPego.setEmissaoCarbonoMensal(rs.getDouble("emissao_carbono_mensal"));
+                formularioMensalPego.setNumResidencia(rs.getString("num_moradia"));
+                formularioMensalPego.setMesEmitido(rs.getInt("mes_emitido"));
+                formularioMensalPego.setAnoEmitido(rs.getInt("ano_emitido"));
+            }
+
+            statement.close();
+            rs.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return formularioMensalPego;
     }
 
     public void fecharConexao() {
