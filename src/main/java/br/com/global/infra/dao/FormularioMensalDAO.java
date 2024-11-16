@@ -37,7 +37,7 @@ public class FormularioMensalDAO implements RepositorioFormulariosMensal {
     @Override
     public void persistirFormularioMensal(FormularioMensal formularioMensal) {
         String sqlInsert = """
-            INSERT INTO TB_FORMULARIO_MENSAL VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO TB_FORMULARIO_MENSAL VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             """;
 
         try {
@@ -48,8 +48,9 @@ public class FormularioMensalDAO implements RepositorioFormulariosMensal {
             ps.setDouble(4, formularioMensal.getValorContaLuzMensal());
             ps.setDouble(5, formularioMensal.getEnergiaGastaMensal());
             ps.setDouble(6, formularioMensal.getEmissaoCarbonoMensal());
-            ps.setInt(7, formularioMensal.getMesEmitido());
-            ps.setInt(8, formularioMensal.getAnoEmitido());
+            ps.setString(7, formularioMensal.getNumResidencia());
+            ps.setInt(8, formularioMensal.getMesEmitido());
+            ps.setInt(9, formularioMensal.getAnoEmitido());
             ps.execute();
             ps.close();
         } catch (SQLException e) {
@@ -58,13 +59,14 @@ public class FormularioMensalDAO implements RepositorioFormulariosMensal {
     }
 
     @Override
-    public List<FormularioMensal> pegarFormulariosPorMesAnoComunidade(Integer mes, Integer ano) {
-        String sqlSelect = "SELECT * FROM TB_FORMULARIO_MENSAL WHERE mes_emitido = ? AND ano_emitido = ?";
+    public List<FormularioMensal> pegarFormulariosPorMesAnoComunidade(Long idSindico, Integer mes, Integer ano) {
+        String sqlSelect = "SELECT * FROM TB_FORMULARIO_MENSAL WHERE id_sindico = ? AND mes_emitido = ? AND ano_emitido = ?";
         List<FormularioMensal> formularios = new ArrayList<>();
         try {
             PreparedStatement statement = conexao.prepareStatement(sqlSelect);
-            statement.setInt(1, mes);
-            statement.setInt(2, ano);
+            statement.setLong(1, idSindico);
+            statement.setInt(2, mes);
+            statement.setInt(3, ano);
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
@@ -74,6 +76,7 @@ public class FormularioMensalDAO implements RepositorioFormulariosMensal {
                 formularioMensal.setValorContaLuzMensal(rs.getDouble("valor_conta_luz_mensal"));
                 formularioMensal.setEnergiaGastaMensal(rs.getDouble("energia_gasta_mensal"));
                 formularioMensal.setEmissaoCarbonoMensal(rs.getDouble("emissao_carbono_mensal"));
+                formularioMensal.setNumResidencia(rs.getString("num_moradia"));
                 formularioMensal.setMesEmitido(rs.getInt("mes_emitido"));
                 formularioMensal.setAnoEmitido(rs.getInt("ano_emitido"));
                 formularios.add(formularioMensal);

@@ -33,11 +33,11 @@ public class FormularioMensalController {
     }
 
     @GET
-    @Path("/{mes}/{ano}")
+    @Path("/{idMoradia}/{mes}/{ano}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response pegarFormulariosPorMesAnoComunidade(@PathParam("mes") Integer mes, @PathParam("ano") Integer ano){
+    public Response pegarFormulariosPorMesAnoComunidade(@PathParam("idMoradia") Long idMoradia, @PathParam("mes") Integer mes, @PathParam("ano") Integer ano){
         try {
-            List<FormularioMensal> formulariosMensal = formularioMensalService.pegarFormulariosPorMesAnoComunidade(mes, ano);
+            List<FormularioMensal> formulariosMensal = formularioMensalService.pegarFormulariosPorMesAnoComunidade(idMoradia, mes, ano);
             return Response.status(Response.Status.OK).entity(formulariosMensal).build();
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());

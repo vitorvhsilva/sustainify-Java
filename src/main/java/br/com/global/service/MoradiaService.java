@@ -35,8 +35,14 @@ public class MoradiaService {
     }
 
     public Long pegarSindicoPorMoradia(Long idMoradia) {
-        Long idSindico = repositorioMoradias.pegarSindicoPorMoradia(idMoradia);
+        return repositorioMoradias.pegarSindicoPorMoradia(idMoradia);
+    }
+
+    public Moradia pegarMoradiaPorMoradia(Long idMoradia){
+        return repositorioMoradias.pegarMoradiaPorMoradia(idMoradia);
+    }
+
+    public void fecharConexao() {
         repositorioMoradias.fecharConexao();
-        return idSindico;
     }
 }

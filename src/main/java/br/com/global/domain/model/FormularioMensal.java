@@ -14,6 +14,8 @@ public class FormularioMensal {
     @JsonProperty
     private Double emissaoCarbonoMensal;
     @JsonProperty
+    private String numResidencia;
+    @JsonProperty
     private Integer mesEmitido;
     @JsonProperty
     private Integer anoEmitido;
@@ -21,12 +23,13 @@ public class FormularioMensal {
     public FormularioMensal() {
     }
 
-    public FormularioMensal(Long idMoradia, Long idSindico, Double valorContaLuzMensal, Double energiaGastaMensal, Double emissaoCarbonoMensal, Integer mesEmitido, Integer anoEmitido) {
+    public FormularioMensal(Long idMoradia, Long idSindico, Double valorContaLuzMensal, Double energiaGastaMensal, Double emissaoCarbonoMensal, String numResidencia, Integer mesEmitido, Integer anoEmitido) {
         this.idMoradia = idMoradia;
         this.idSindico = idSindico;
         this.valorContaLuzMensal = valorContaLuzMensal;
         this.energiaGastaMensal = energiaGastaMensal;
         this.emissaoCarbonoMensal = emissaoCarbonoMensal;
+        this.numResidencia = numResidencia;
         this.mesEmitido = mesEmitido;
         this.anoEmitido = anoEmitido;
     }
@@ -85,5 +88,13 @@ public class FormularioMensal {
 
     public void setAnoEmitido(Integer anoEmitido) {
         this.anoEmitido = anoEmitido;
+    }
+
+    public String getNumResidencia() {
+        return numResidencia;
+    }
+
+    public void setNumResidencia(String numResidencia) {
+        this.numResidencia = numResidencia;
     }
 }

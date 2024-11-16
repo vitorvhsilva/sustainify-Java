@@ -8,5 +8,5 @@ public interface RepositorioFormulariosMensal {
     Long obterProximoId();
     void persistirFormularioMensal(FormularioMensal formularioMensal);
     void fecharConexao();
-    List<FormularioMensal> pegarFormulariosPorMesAnoComunidade(Integer mes, Integer ano);
+    List<FormularioMensal> pegarFormulariosPorMesAnoComunidade(Long idSindico, Integer mes, Integer ano);
 }

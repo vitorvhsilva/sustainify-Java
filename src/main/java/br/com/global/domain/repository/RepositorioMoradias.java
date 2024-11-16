@@ -11,4 +11,6 @@ public interface RepositorioMoradias {
     Long pegarMoradiaPorMorador(String numResidencia);
 
     Long pegarSindicoPorMoradia(Long idMoradia);
+
+    Moradia pegarMoradiaPorMoradia(Long idMoradia);
 }
