@@ -7,14 +7,13 @@ import br.com.global.infra.dao.PremioDAO;
 
 import java.util.List;
 
-public class PremioService implements ServicosPremio{
+public class PremioService{
     private RepositorioPremios repositorioPremios;
 
     public PremioService() {
         this.repositorioPremios = new PremioDAO();
     }
 
-    @Override
     public void criarPremiosNaComunidade(Comunidade comunidade) {
         Premio premio1 = new Premio(comunidade.getIdSindico(), 1, "");
         Premio premio2 = new Premio(comunidade.getIdSindico(), 2, "");
@@ -27,13 +26,11 @@ public class PremioService implements ServicosPremio{
         repositorioPremios.fecharConexao();
     }
 
-    @Override
     public void atualizarPremio(Premio premio) {
         repositorioPremios.atualizarPremio(premio);
         repositorioPremios.fecharConexao();
     }
 
-    @Override
     public List<Premio> pegarPremiosDaComunidade(Long idSindico) {
         List<Premio> premios = repositorioPremios.pegarPremiosDaComunidade(idSindico);
         repositorioPremios.fecharConexao();

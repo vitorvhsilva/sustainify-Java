@@ -11,13 +11,13 @@ import java.util.regex.Pattern;
 
 public class MoradorService {
     private RepositorioMoradores repositorioMoradores;
-    private ServicosSolicitacao servicosSolicitacao;
-    private ServicosComunidade servicosComunidade;
+    private SolicitacaoService solicitacaoService;
+    private ComunidadeService comunidadeService;
 
     public MoradorService() {
         this.repositorioMoradores = new MoradorDAO();
-        this.servicosSolicitacao = new SolicitacaoService();
-        this.servicosComunidade = new ComunidadeService();
+        this.solicitacaoService = new SolicitacaoService();
+        this.comunidadeService = new ComunidadeService();
     }
 
     public void enviarSolicitacaoDeCadastro(CadastroMoradorInputDTO dto) {
@@ -26,22 +26,22 @@ public class MoradorService {
 
         Morador morador = new Morador(dto.getNomeMorador(), dto.getCpfMorador(), dto.getEmailMorador(), dto.getSenhaMorador(), dto.getTelefoneMorador(), 0);
 
-        Long idSindico = servicosComunidade.retornarSindicoPorCep(dto.getCepSolicitacao());
+        Long idSindico = comunidadeService.retornarSindicoPorCep(dto.getCepSolicitacao());
 
         if (idSindico == null) throw new RuntimeException("Comunidade não existe!");
 
-        Solicitacao solicitacao = new Solicitacao(idMorador, idSindico, dto.getCepSolicitacao(), dto.getNumResidenciaSolicitacao());
-        servicosSolicitacao.verificarSeSolicitacaoExiste(solicitacao);
+        Solicitacao solicitacao = new Solicitacao(idMorador, idSindico, dto.getNomeMorador(), dto.getCpfMorador(), dto.getCepSolicitacao(), dto.getNumResidenciaSolicitacao());
+        solicitacaoService.verificarSeSolicitacaoExiste(solicitacao);
 
         repositorioMoradores.persistirMorador(morador, idMorador);
-        servicosSolicitacao.persistirSolicitacao(solicitacao);
+        solicitacaoService.persistirSolicitacao(solicitacao);
 
         repositorioMoradores.fecharConexao();
     }
 
     public void atualizarStatusAtualizacao(Long idMorador) {
         repositorioMoradores.atualizarStatusAtualizacao(idMorador);
-        servicosSolicitacao.deletarSolicitacao(idMorador);
+        solicitacaoService.deletarSolicitacao(idMorador);
         repositorioMoradores.fecharConexao();
 
     }

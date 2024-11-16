@@ -4,7 +4,7 @@ import br.com.global.domain.model.Comunidade;
 import br.com.global.domain.repository.RepositorioComunidades;
 import br.com.global.infra.dao.ComunidadeDAO;
 
-public class ComunidadeService implements ServicosComunidade{
+public class ComunidadeService{
     private RepositorioComunidades repositorioComunidades;
 
     public ComunidadeService() {
@@ -23,7 +23,6 @@ public class ComunidadeService implements ServicosComunidade{
         return idSindico;
     }
 
-    @Override
     public Comunidade retornarComunidadePorIdSindico(Long idSindico) {
         Comunidade comunidade = repositorioComunidades.retornarComunidadePorIdSindico(idSindico);
         repositorioComunidades.fecharConexao();

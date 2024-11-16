@@ -6,8 +6,9 @@ import br.com.global.infra.dao.SolicitacaoDAO;
 
 import java.util.List;
 
-public class SolicitacaoService implements ServicosSolicitacao{
+public class SolicitacaoService{
     private RepositorioSolicitacoes repositorioSolicitacoes;
+    private MoradorService moradorService;
 
     public SolicitacaoService() {
         this.repositorioSolicitacoes = new SolicitacaoDAO();
@@ -18,20 +19,17 @@ public class SolicitacaoService implements ServicosSolicitacao{
         repositorioSolicitacoes.fecharConexao();
     }
 
-    @Override
     public List<Solicitacao> pegarSolicitacoesNaComunidadePorCep(String cep) {
         List<Solicitacao> solicitacoes = repositorioSolicitacoes.pegarSolicitacoesNaComunidadePorCep(cep);
         repositorioSolicitacoes.fecharConexao();
         return solicitacoes;
     }
 
-    @Override
     public void verificarSeSolicitacaoExiste(Solicitacao solicitacao) {
         Solicitacao solicitacaoPega = repositorioSolicitacoes.verificarSeSolicitacaoExiste(solicitacao);
         if (solicitacaoPega.getNumResidenciaSolicitacao() != null) throw new RuntimeException("Solicitação já existe");
     }
 
-    @Override
     public void deletarSolicitacao(Long idMorador) {
         repositorioSolicitacoes.deletarSolicitacao(idMorador);
         repositorioSolicitacoes.fecharConexao();

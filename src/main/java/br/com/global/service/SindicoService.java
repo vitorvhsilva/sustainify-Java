@@ -11,13 +11,13 @@ import java.util.regex.Pattern;
 
 public class SindicoService {
     private RepositorioSindicos repositorioSindicos;
-    private ServicosComunidade servicosComunidade;
-    private ServicosPremio servicosPremio;
+    private ComunidadeService comunidadeService;
+    private PremioService premioService;
 
     public SindicoService() {
         this.repositorioSindicos = new SindicoDAO();
-        this.servicosComunidade = new ComunidadeService();
-        this.servicosPremio = new PremioService();
+        this.comunidadeService = new ComunidadeService();
+        this.premioService = new PremioService();
     }
 
     public void persistirSindicoeComunidade(CadastroSindicoInputDTO dto) {
@@ -28,8 +28,8 @@ public class SindicoService {
         Comunidade comunidade = new Comunidade(idSindico, dto.getRuaComunidade(), dto.getNumComunidade(), dto.getCepComunidade());
 
         repositorioSindicos.persistirSindico(sindico, idSindico);
-        servicosComunidade.persistirComunidade(comunidade);
-        servicosPremio.criarPremiosNaComunidade(comunidade);
+        comunidadeService.persistirComunidade(comunidade);
+        premioService.criarPremiosNaComunidade(comunidade);
 
         repositorioSindicos.fecharConexao();
     }

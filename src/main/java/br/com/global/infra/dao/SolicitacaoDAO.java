@@ -20,15 +20,17 @@ public class SolicitacaoDAO implements RepositorioSolicitacoes {
 
     public void persistirSolicitacao(Solicitacao solicitacao) {
         String sqlInsert = """
-                INSERT INTO TB_SOLICITACAO VALUES (?, ?, ?, ?)
+                INSERT INTO TB_SOLICITACAO VALUES (?, ?, ?, ?, ?, ?)
                 """;
 
         try {
             PreparedStatement ps = conexao.prepareStatement(sqlInsert);
             ps.setLong(1, solicitacao.getIdMorador());
             ps.setLong(2, solicitacao.getIdSindico());
-            ps.setString(3, solicitacao.getCepSolicitacao());
-            ps.setString(4, solicitacao.getNumResidenciaSolicitacao());
+            ps.setString(3, solicitacao.getNomeMorador());
+            ps.setString(4, solicitacao.getCpfMorador());
+            ps.setString(5, solicitacao.getCepSolicitacao());
+            ps.setString(6, solicitacao.getNumResidenciaSolicitacao());
             ps.execute();
             ps.close();
         } catch (SQLException e) {
@@ -57,6 +59,8 @@ public class SolicitacaoDAO implements RepositorioSolicitacoes {
                 Solicitacao solicitacao = new Solicitacao();
                 solicitacao.setIdMorador(rs.getLong("id_morador"));
                 solicitacao.setIdSindico(rs.getLong("id_sindico"));
+                solicitacao.setNomeMorador(rs.getString("nome_morador"));
+                solicitacao.setCpfMorador(rs.getString("cpf_morador"));
                 solicitacao.setCepSolicitacao(rs.getString("cep_solicitacao"));
                 solicitacao.setNumResidenciaSolicitacao(rs.getString("num_residencia_solicitacao"));
                 solicitacoes.add(solicitacao);
@@ -81,10 +85,12 @@ public class SolicitacaoDAO implements RepositorioSolicitacoes {
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
-                solicitacaoPega.setIdMorador(rs.getLong("id_morador"));
-                solicitacaoPega.setIdSindico(rs.getLong("id_sindico"));
-                solicitacaoPega.setCepSolicitacao(rs.getString("cep_solicitacao"));
-                solicitacaoPega.setNumResidenciaSolicitacao(rs.getString("num_residencia_solicitacao"));
+                solicitacao.setIdMorador(rs.getLong("id_morador"));
+                solicitacao.setIdSindico(rs.getLong("id_sindico"));
+                solicitacao.setNomeMorador(rs.getString("nome_morador"));
+                solicitacao.setCpfMorador(rs.getString("cpf_morador"));
+                solicitacao.setCepSolicitacao(rs.getString("cep_solicitacao"));
+                solicitacao.setNumResidenciaSolicitacao(rs.getString("num_residencia_solicitacao"));
             }
 
             statement.close();

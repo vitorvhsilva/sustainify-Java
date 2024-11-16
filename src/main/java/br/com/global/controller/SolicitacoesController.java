@@ -1,10 +1,6 @@
 package br.com.global.controller;
 
 import br.com.global.domain.model.Solicitacao;
-import br.com.global.dto.CadastroSindicoInputDTO;
-import br.com.global.service.ServicosComunidade;
-import br.com.global.service.ServicosSolicitacao;
-import br.com.global.service.SindicoService;
 import br.com.global.service.SolicitacaoService;
 
 import javax.ws.rs.*;
@@ -14,19 +10,18 @@ import java.util.List;
 
 @Path("solicitacoes")
 public class SolicitacoesController {
-    private ServicosSolicitacao servicosSolicitacao;
+    private SolicitacaoService solicitacaoService;
 
     public SolicitacoesController() {
-        this.servicosSolicitacao = new SolicitacaoService();
+        this.solicitacaoService = new SolicitacaoService();
     }
 
     @GET
     @Path("/{cep}")
-    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response pegarSolicitacoesNaComunidadePorCep(@PathParam("cep") String cep){
         try {
-            List<Solicitacao> solicitacoes = servicosSolicitacao.pegarSolicitacoesNaComunidadePorCep(cep);
+            List<Solicitacao> solicitacoes = solicitacaoService.pegarSolicitacoesNaComunidadePorCep(cep);
             return Response.status(Response.Status.OK).entity(solicitacoes).build();
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
@@ -39,9 +34,9 @@ public class SolicitacoesController {
 
     @DELETE
     @Path("/{idMorador}")
-    public Response pegarSolicitacoesNaComunidadePorCep(@PathParam("idMorador") Long idMorador){
+    public Response deletarSolicitacao(@PathParam("idMorador") Long idMorador){
         try {
-            servicosSolicitacao.deletarSolicitacao(idMorador);
+            solicitacaoService.deletarSolicitacao(idMorador);
             return Response.status(Response.Status.NO_CONTENT).build();
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());

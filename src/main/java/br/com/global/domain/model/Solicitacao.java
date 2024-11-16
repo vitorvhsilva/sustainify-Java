@@ -8,6 +8,10 @@ public class Solicitacao {
     @JsonProperty
     private Long idSindico;
     @JsonProperty
+    private String nomeMorador;
+    @JsonProperty
+    private String cpfMorador;
+    @JsonProperty
     private String cepSolicitacao;
     @JsonProperty
     private String numResidenciaSolicitacao;
@@ -15,9 +19,11 @@ public class Solicitacao {
     public Solicitacao() {
     }
 
-    public Solicitacao(Long idMorador, Long idSindico, String cepSolicitacao, String numResidenciaSolicitacao) {
+    public Solicitacao(Long idMorador, Long idSindico, String nomeMorador, String cpfMorador, String cepSolicitacao, String numResidenciaSolicitacao) {
         this.idMorador = idMorador;
         this.idSindico = idSindico;
+        this.nomeMorador = nomeMorador;
+        this.cpfMorador = cpfMorador;
         this.cepSolicitacao = cepSolicitacao;
         this.numResidenciaSolicitacao = numResidenciaSolicitacao;
     }
@@ -52,6 +58,22 @@ public class Solicitacao {
 
     public void setNumResidenciaSolicitacao(String numResidenciaSolicitacao) {
         this.numResidenciaSolicitacao = numResidenciaSolicitacao;
+    }
+
+    public String getNomeMorador() {
+        return nomeMorador;
+    }
+
+    public void setNomeMorador(String nomeMorador) {
+        this.nomeMorador = nomeMorador;
+    }
+
+    public String getCpfMorador() {
+        return cpfMorador;
+    }
+
+    public void setCpfMorador(String cpfMorador) {
+        this.cpfMorador = cpfMorador;
     }
 
     @Override
