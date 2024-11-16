@@ -1,12 +1,10 @@
-package br.com.global.domain.model;
+package br.com.global.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class FormularioMensal {
+public class CadastroFormularioMensalInputDTO {
     @JsonProperty
     private Long idMoradia;
-    @JsonProperty
-    private Long idSindico;
     @JsonProperty
     private Double valorContaLuzMensal;
     @JsonProperty
@@ -18,12 +16,11 @@ public class FormularioMensal {
     @JsonProperty
     private Integer anoEmitido;
 
-    public FormularioMensal() {
+    public CadastroFormularioMensalInputDTO() {
     }
 
-    public FormularioMensal(Long idMoradia, Long idSindico, Double valorContaLuzMensal, Double energiaGastaMensal, Double emissaoCarbonoMensal, Integer mesEmitido, Integer anoEmitido) {
+    public CadastroFormularioMensalInputDTO(Long idMoradia, Double valorContaLuzMensal, Double energiaGastaMensal, Double emissaoCarbonoMensal, Integer mesEmitido, Integer anoEmitido) {
         this.idMoradia = idMoradia;
-        this.idSindico = idSindico;
         this.valorContaLuzMensal = valorContaLuzMensal;
         this.energiaGastaMensal = energiaGastaMensal;
         this.emissaoCarbonoMensal = emissaoCarbonoMensal;
@@ -47,28 +44,20 @@ public class FormularioMensal {
         this.valorContaLuzMensal = valorContaLuzMensal;
     }
 
-    public Double getEmissaoCarbonoMensal() {
-        return emissaoCarbonoMensal;
-    }
-
-    public void setEmissaoCarbonoMensal(Double emissaoCarbonoMensal) {
-        this.emissaoCarbonoMensal = emissaoCarbonoMensal;
-    }
-
-    public Long getIdSindico() {
-        return idSindico;
-    }
-
-    public void setIdSindico(Long idSindico) {
-        this.idSindico = idSindico;
-    }
-
     public Double getEnergiaGastaMensal() {
         return energiaGastaMensal;
     }
 
     public void setEnergiaGastaMensal(Double energiaGastaMensal) {
         this.energiaGastaMensal = energiaGastaMensal;
+    }
+
+    public Double getEmissaoCarbonoMensal() {
+        return emissaoCarbonoMensal;
+    }
+
+    public void setEmissaoCarbonoMensal(Double emissaoCarbonoMensal) {
+        this.emissaoCarbonoMensal = emissaoCarbonoMensal;
     }
 
     public Integer getMesEmitido() {
