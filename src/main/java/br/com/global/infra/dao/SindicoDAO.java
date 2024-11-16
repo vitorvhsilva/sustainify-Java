@@ -88,7 +88,7 @@ public class SindicoDAO implements RepositorioSindicos {
     }
 
     @Override
-    public Long retornarSindicoPorCpf(String cpf) {
+    public Long retornarIdDoSindicoPorCpf(String cpf) {
         String sql = "SELECT * FROM TB_SINDICO WHERE cpf_sindico = ?";
         Long id = null;
         try {
@@ -104,6 +104,29 @@ public class SindicoDAO implements RepositorioSindicos {
             throw new RuntimeException(e);
         }
         return id;
+    }
+
+    @Override
+    public Sindico retornarSindicoPorCpf(Long idSindico) {
+        String sqlSelect = "SELECT * FROM TB_SINDICO WHERE id_sindico = ?";
+        Sindico sindico = new Sindico();
+        try {
+            PreparedStatement ps = conexao.prepareStatement(sqlSelect);
+            ps.setLong(1, idSindico);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                sindico.setNomeSindico(rs.getString("nome_sindico"));
+                sindico.setEmailSindico(rs.getString("email_sindico"));
+                sindico.setSenhaSindico(rs.getString("senha_sindico"));
+                sindico.setCpfSindico(rs.getString("cpf_sindico"));
+                sindico.setTelefoneSindico(rs.getString("telefone_sindico"));
+            }
+            ps.close();
+            rs.close();
+        }catch(SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return sindico;
     }
 
     public void fecharConexao() {

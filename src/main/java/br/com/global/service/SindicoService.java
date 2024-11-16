@@ -34,10 +34,17 @@ public class SindicoService {
         repositorioSindicos.fecharConexao();
     }
 
-    public Long retornarSindicoPorCpf(String cpf) {
-        Long idSindico = repositorioSindicos.retornarSindicoPorCpf(cpf);
+    public Long retornarIdDoSindicoPorCpf(String cpf) {
+        Long idSindico = repositorioSindicos.retornarIdDoSindicoPorCpf(cpf);
         repositorioSindicos.fecharConexao();
         return idSindico;
+    }
+
+
+    public Sindico retornarSindicoPorCpf(Long idSindico) {
+        Sindico sindico = repositorioSindicos.retornarSindicoPorCpf(idSindico);
+        repositorioSindicos.fecharConexao();
+        return sindico;
     }
 
     private boolean validarEmail(String email) {
