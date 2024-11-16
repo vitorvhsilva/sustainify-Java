@@ -9,4 +9,6 @@ public interface RepositorioMoradias {
     void persistirMoradia(Moradia moradia);
     void fecharConexao();
     Long pegarMoradiaPorMorador(String numResidencia);
+
+    Long pegarSindicoPorMoradia(Long idMoradia);
 }

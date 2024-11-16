@@ -78,6 +78,30 @@ public class MoradiaDAO implements RepositorioMoradias {
         return idMoradia;
     }
 
+    @Override
+    public Long pegarSindicoPorMoradia(Long idMoradia) {
+        String sqlSelect = "SELECT * FROM TB_MORADIA WHERE id_moradia = ?";
+        Long idSindico = null;
+        try {
+            PreparedStatement statement = conexao.prepareStatement(sqlSelect);
+            statement.setLong(1, idMoradia);
+            ResultSet rs = statement.executeQuery();
+
+            if (!rs.next()) {
+                throw new RuntimeException("Moradia não encontrada!");
+            }
+
+            idSindico = rs.getLong("id_sindico");
+
+            statement.close();
+            rs.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return idSindico;
+    }
+
     public void fecharConexao() {
         try {
             conexao.close();
