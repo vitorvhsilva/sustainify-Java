@@ -40,13 +40,6 @@ public class MoradorService {
         repositorioMoradores.fecharConexao();
     }
 
-    public void atualizarStatusAtualizacao(Long idMorador) {
-        repositorioMoradores.atualizarStatusAtualizacao(idMorador);
-        solicitacaoService.deletarSolicitacao(idMorador);
-        repositorioMoradores.fecharConexao();
-    }
-
-
     public Long fazerLogin(LoginDTO dto) {
         Long idMorador = repositorioMoradores.fazerLogin(dto);
         repositorioMoradores.fecharConexao();

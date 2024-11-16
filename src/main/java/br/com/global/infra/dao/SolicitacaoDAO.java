@@ -1,8 +1,8 @@
 package br.com.global.infra.dao;
 
-import br.com.global.domain.model.Morador;
 import br.com.global.domain.model.Solicitacao;
 import br.com.global.domain.repository.RepositorioSolicitacoes;
+import br.com.global.dto.AtualizarStatusSolicitacaoDTO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -103,6 +103,53 @@ public class SolicitacaoDAO implements RepositorioSolicitacoes {
         }
 
         return solicitacaoPega;
+    }
+
+
+    @Override
+    public void atualizarSolicitacao(AtualizarStatusSolicitacaoDTO dto) {
+        String sqlUpdate = """
+                UPDATE TB_SOLICITACAO SET solicitacao_aceita = 1 WHERE num_residencia_solicitacao = ?
+                """;
+
+        try {
+            PreparedStatement ps = conexao.prepareStatement(sqlUpdate);
+            ps.setString(1, dto.getNumResidenciaSolicitacao());
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<Solicitacao> pegarSolicitacoesNaComunidadePorMorador(Long idMorador) {
+        String sqlSelect = "SELECT * FROM TB_SOLICITACAO WHERE id_morador = ?";
+        List<Solicitacao> solicitacoes = new ArrayList<>();
+        try {
+            PreparedStatement statement = conexao.prepareStatement(sqlSelect);
+            statement.setLong(1, idMorador);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                Solicitacao solicitacao = new Solicitacao();
+                solicitacao.setIdMorador(rs.getLong("id_morador"));
+                solicitacao.setIdSindico(rs.getLong("id_sindico"));
+                solicitacao.setNomeMorador(rs.getString("nome_morador"));
+                solicitacao.setCpfMorador(rs.getString("cpf_morador"));
+                solicitacao.setCepSolicitacao(rs.getString("cep_solicitacao"));
+                solicitacao.setNumResidenciaSolicitacao(rs.getString("num_residencia_solicitacao"));
+                solicitacao.setSolicitacaoAceita(rs.getInt("solicitacao_aceita"));
+                solicitacoes.add(solicitacao);
+            }
+
+            statement.close();
+            rs.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return solicitacoes;
     }
 
     @Override

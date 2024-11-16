@@ -7,7 +7,6 @@ public interface RepositorioMoradores {
     Long obterProximoId();
     void persistirMorador(Morador morador, Long idMorador);
     void fecharConexao();
-    void atualizarStatusAtualizacao(Long idMorador);
     boolean moradorExistePorCpf(String cpf);
     boolean moradorExistePorEmail(String email);
     Long fazerLogin(LoginDTO dto);

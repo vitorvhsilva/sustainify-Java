@@ -2,13 +2,13 @@ package br.com.global.service;
 
 import br.com.global.domain.model.Solicitacao;
 import br.com.global.domain.repository.RepositorioSolicitacoes;
+import br.com.global.dto.AtualizarStatusSolicitacaoDTO;
 import br.com.global.infra.dao.SolicitacaoDAO;
 
 import java.util.List;
 
 public class SolicitacaoService{
     private RepositorioSolicitacoes repositorioSolicitacoes;
-    private MoradorService moradorService;
 
     public SolicitacaoService() {
         this.repositorioSolicitacoes = new SolicitacaoDAO();
@@ -33,5 +33,16 @@ public class SolicitacaoService{
     public void deletarSolicitacao(Long idMorador) {
         repositorioSolicitacoes.deletarSolicitacao(idMorador);
         repositorioSolicitacoes.fecharConexao();
+    }
+
+    public void atualizarSolicitacao(AtualizarStatusSolicitacaoDTO dto) {
+        repositorioSolicitacoes.atualizarSolicitacao(dto);
+        repositorioSolicitacoes.fecharConexao();
+    }
+
+    public List<Solicitacao> pegarSolicitacoesNaComunidadePorMorador(Long idMorador) {
+        List<Solicitacao> solicitacoes = repositorioSolicitacoes.pegarSolicitacoesNaComunidadePorMorador(idMorador);
+        repositorioSolicitacoes.fecharConexao();
+        return solicitacoes;
     }
 }
