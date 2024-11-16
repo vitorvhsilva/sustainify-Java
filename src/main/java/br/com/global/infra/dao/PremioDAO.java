@@ -1,13 +1,14 @@
 package br.com.global.infra.dao;
 
 import br.com.global.domain.model.Premio;
-import br.com.global.domain.model.Sindico;
 import br.com.global.domain.repository.RepositorioPremios;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PremioDAO implements RepositorioPremios {
     private Connection conexao;
@@ -50,6 +51,33 @@ public class PremioDAO implements RepositorioPremios {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public List<Premio> pegarPremiosDaComunidade(Long idSindico) {
+        String sqlSelect = "SELECT * FROM TB_PREMIO WHERE id_sindico = ?";
+        List<Premio> premios = new ArrayList<>();
+        try {
+            PreparedStatement statement = conexao.prepareStatement(sqlSelect);
+            statement.setLong(1, idSindico);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                Premio premio = new Premio();
+                premio.setIdSindico(idSindico);
+                premio.setPosicaoPremio(rs.getInt("posicao_premio"));
+                premio.setPremio(rs.getString("premio"));
+                premios.add(premio);
+            }
+
+
+            statement.close();
+            rs.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return premios;
     }
 
     public void fecharConexao() {

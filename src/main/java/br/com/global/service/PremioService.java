@@ -5,6 +5,8 @@ import br.com.global.domain.model.Premio;
 import br.com.global.domain.repository.RepositorioPremios;
 import br.com.global.infra.dao.PremioDAO;
 
+import java.util.List;
+
 public class PremioService implements ServicosPremio{
     private RepositorioPremios repositorioPremios;
 
@@ -29,5 +31,12 @@ public class PremioService implements ServicosPremio{
     public void atualizarPremio(Premio premio) {
         repositorioPremios.atualizarPremio(premio);
         repositorioPremios.fecharConexao();
+    }
+
+    @Override
+    public List<Premio> pegarPremiosDaComunidade(Long idSindico) {
+        List<Premio> premios = repositorioPremios.pegarPremiosDaComunidade(idSindico);
+        repositorioPremios.fecharConexao();
+        return premios;
     }
 }
