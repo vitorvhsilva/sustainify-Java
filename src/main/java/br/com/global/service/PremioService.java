@@ -24,4 +24,10 @@ public class PremioService implements ServicosPremio{
 
         repositorioPremios.fecharConexao();
     }
+
+    @Override
+    public void atualizarPremio(Premio premio) {
+        repositorioPremios.atualizarPremio(premio);
+        repositorioPremios.fecharConexao();
+    }
 }

@@ -34,6 +34,24 @@ public class PremioDAO implements RepositorioPremios {
         }
     }
 
+    @Override
+    public void atualizarPremio(Premio premio) {
+        String sqlUpdate = """
+                UPDATE TB_PREMIO SET premio = ? WHERE id_sindico = ? AND posicao_premio = ?
+                """;
+
+        try {
+            PreparedStatement ps = conexao.prepareStatement(sqlUpdate);
+            ps.setString(1, premio.getPremio());
+            ps.setLong(2, premio.getIdSindico());
+            ps.setInt(3, premio.getPosicaoPremio());
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void fecharConexao() {
         try {
             conexao.close();
