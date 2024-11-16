@@ -1,5 +1,6 @@
 package br.com.global.service;
 
+import br.com.global.domain.model.Moradia;
 import br.com.global.domain.model.Solicitacao;
 import br.com.global.domain.repository.RepositorioSolicitacoes;
 import br.com.global.dto.AtualizarStatusSolicitacaoDTO;
@@ -9,9 +10,11 @@ import java.util.List;
 
 public class SolicitacaoService{
     private RepositorioSolicitacoes repositorioSolicitacoes;
+    private MoradiaService moradiaService;
 
     public SolicitacaoService() {
         this.repositorioSolicitacoes = new SolicitacaoDAO();
+        this.moradiaService = new MoradiaService();
     }
 
     public void persistirSolicitacao(Solicitacao solicitacao) {
@@ -37,6 +40,10 @@ public class SolicitacaoService{
 
     public void atualizarSolicitacao(AtualizarStatusSolicitacaoDTO dto) {
         repositorioSolicitacoes.atualizarSolicitacao(dto);
+
+        Moradia moradia = new Moradia(dto.getIdMorador(), dto.getIdSindico() ,dto.getNumMoradia());
+
+        moradiaService.persistirMoradia(moradia);
         repositorioSolicitacoes.fecharConexao();
     }
 

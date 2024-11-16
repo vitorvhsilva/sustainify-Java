@@ -114,7 +114,7 @@ public class SolicitacaoDAO implements RepositorioSolicitacoes {
 
         try {
             PreparedStatement ps = conexao.prepareStatement(sqlUpdate);
-            ps.setString(1, dto.getNumResidenciaSolicitacao());
+            ps.setString(1, dto.getNumMoradia());
             ps.executeUpdate();
             ps.close();
         } catch (SQLException e) {
