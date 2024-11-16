@@ -114,6 +114,29 @@ public class MoradorDAO implements RepositorioMoradores {
         return idMorador;
     }
 
+    @Override
+    public Morador retornarMoradorPorIdMorador(Long idMorador) {
+        String sqlSelect = "SELECT * FROM TB_MORADOR WHERE id_morador = ?";
+        Morador morador = new Morador();
+        try {
+            PreparedStatement ps = conexao.prepareStatement(sqlSelect);
+            ps.setLong(1, idMorador);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                morador.setNomeMorador(rs.getString("nome_morador"));
+                morador.setEmailMorador(rs.getString("email_morador"));
+                morador.setSenhaMorador(rs.getString("senha_morador"));
+                morador.setCpfMorador(rs.getString("cpf_morador"));
+                morador.setTelefoneMorador(rs.getString("telefone_morador"));
+            }
+            ps.close();
+            rs.close();
+        }catch(SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return morador;
+    }
+
     public void fecharConexao() {
         try {
             conexao.close();

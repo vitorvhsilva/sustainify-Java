@@ -10,4 +10,5 @@ public interface RepositorioMoradores {
     boolean moradorExistePorCpf(String cpf);
     boolean moradorExistePorEmail(String email);
     Long fazerLogin(LoginDTO dto);
+    Morador retornarMoradorPorIdMorador(Long idMorador);
 }

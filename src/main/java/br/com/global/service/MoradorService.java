@@ -46,6 +46,12 @@ public class MoradorService {
         return idMorador;
     }
 
+    public Morador retornarMoradorPorIdMorador(Long idMorador) {
+        Morador morador = repositorioMoradores.retornarMoradorPorIdMorador(idMorador);
+        repositorioMoradores.fecharConexao();
+        return morador;
+    }
+
     private boolean validarEmail(String email) {
         String emailPattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
         Pattern pattern = Pattern.compile(emailPattern);
@@ -82,4 +88,5 @@ public class MoradorService {
             throw new RuntimeException("CPF inválido! Digite novamente. (Exemplo: 12345678999)");
         }
     }
+
 }
