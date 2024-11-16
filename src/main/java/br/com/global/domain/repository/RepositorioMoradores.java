@@ -8,4 +8,6 @@ public interface RepositorioMoradores {
     void persistirMorador(Morador morador, Long idMorador);
     void fecharConexao();
     void atualizarStatusAtualizacao(Long idMorador);
+    boolean moradorExistePorCpf(String cpf);
+    boolean moradorExistePorEmail(String email);
 }

@@ -80,4 +80,23 @@ public class ComunidadeDAO implements RepositorioComunidades {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public boolean verificarSeComunidadeExistePorCep(String cep) {
+        String sqlSelect = "SELECT * FROM TB_COMUNIDADE WHERE cep_comunidade = ?";
+        boolean existe = false;
+
+        try (PreparedStatement statement = conexao.prepareStatement(sqlSelect)) {
+            statement.setString(1, cep);
+            try (ResultSet rs = statement.executeQuery()) {
+                existe = rs.next();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+        return existe;
+    }
+
 }

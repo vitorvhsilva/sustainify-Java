@@ -12,6 +12,7 @@ public class ComunidadeService implements ServicosComunidade{
     }
 
     public void persistirComunidade(Comunidade comunidade) {
+        validarComunidade(comunidade);
         repositorioComunidades.persistirComunidade(comunidade);
         repositorioComunidades.fecharConexao();
     }
@@ -20,5 +21,9 @@ public class ComunidadeService implements ServicosComunidade{
         Long idSindico = repositorioComunidades.retornarSindicoPorCep(cep);
         repositorioComunidades.fecharConexao();
         return idSindico;
+    }
+
+    private void validarComunidade(Comunidade comunidade) {
+        if (repositorioComunidades.verificarSeComunidadeExistePorCep(comunidade.getCepComunidade())) throw new RuntimeException("Comunidade já existe!");
     }
 }

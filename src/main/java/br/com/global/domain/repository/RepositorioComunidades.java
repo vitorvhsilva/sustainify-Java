@@ -8,4 +8,5 @@ public interface RepositorioComunidades {
     void persistirComunidade(Comunidade comunidade);
     Long retornarSindicoPorCep(String cep);
     void fecharConexao();
+    boolean verificarSeComunidadeExistePorCep(String cep);
 }

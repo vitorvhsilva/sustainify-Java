@@ -70,6 +70,41 @@ public class MoradorDAO implements RepositorioMoradores {
         }
     }
 
+    public boolean moradorExistePorCpf(String cpf) {
+        String sqlSelect = "SELECT * FROM TB_MORADOR WHERE cpf_morador = ?";
+        boolean existe = false;
+
+        try (PreparedStatement statement = conexao.prepareStatement(sqlSelect)) {
+            statement.setString(1, cpf);
+            try (ResultSet rs = statement.executeQuery()) {
+                existe = rs.next();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+        return existe;
+    }
+
+    public boolean moradorExistePorEmail(String email) {
+
+        String sqlSelect = "SELECT * FROM TB_MORADOR WHERE email_morador = ?";
+        boolean existe = false;
+
+        try (PreparedStatement statement = conexao.prepareStatement(sqlSelect)) {
+            statement.setString(1, email);
+            try (ResultSet rs = statement.executeQuery()) {
+                existe = rs.next();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+        return existe;
+    }
+
     public void fecharConexao() {
         try {
             conexao.close();

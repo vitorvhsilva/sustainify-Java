@@ -6,4 +6,6 @@ public interface RepositorioSindicos {
     Long obterProximoId();
     void persistirSindico(Sindico sindico, Long idSindico);
     void fecharConexao();
+    boolean sindicoExistePorCpf(String cpf);
+    boolean sindicoExistePorEmail(String email);
 }
