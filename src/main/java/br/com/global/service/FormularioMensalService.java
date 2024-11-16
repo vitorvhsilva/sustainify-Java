@@ -4,9 +4,11 @@ import br.com.global.domain.model.FormularioMensal;
 import br.com.global.domain.model.Moradia;
 import br.com.global.domain.repository.RepositorioFormulariosMensal;
 import br.com.global.dto.CadastroFormularioMensalInputDTO;
+import br.com.global.dto.EmissaoOutputDTO;
 import br.com.global.infra.dao.FormularioMensalDAO;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FormularioMensalService {
     private RepositorioFormulariosMensal repositorioFormulariosMensal;
@@ -35,5 +37,45 @@ public class FormularioMensalService {
         repositorioFormulariosMensal.fecharConexao();
         return formulariosMensal;
 
+    }
+
+    public List<EmissaoOutputDTO> pegarEmissoesPorAnoMoradia(Long idMoradia, Integer ano) {
+        List<FormularioMensal> formulariosMensal = repositorioFormulariosMensal.pegarFormulariosPorAnoMoradia(idMoradia, ano);
+        repositorioFormulariosMensal.fecharConexao();
+
+        return converterFormulariosEmEmissoes(formulariosMensal);
+    }
+
+    public List<EmissaoOutputDTO> pegarEmissoesPorAnoComunidade(Long idMoradia, Integer ano) {
+        Long idSindico = moradiaService.pegarSindicoPorMoradia(idMoradia);
+        moradiaService.fecharConexao();
+        List<FormularioMensal> formulariosMensal = repositorioFormulariosMensal.pegarFormulariosPorAnoComunidade(idSindico, ano);
+        repositorioFormulariosMensal.fecharConexao();
+
+        return converterFormulariosEmEmissoes(formulariosMensal);
+    }
+
+    private String converterMes(Integer mesNumero) {
+        return switch (mesNumero) {
+            case 1 -> "Janeiro";
+            case 2 -> "Fevereiro";
+            case 3 -> "Março";
+            case 4 -> "Abril";
+            case 5 -> "Maio";
+            case 6 -> "Junho";
+            case 7 -> "Julho";
+            case 8 -> "Agosto";
+            case 9 -> "Setembro";
+            case 10 -> "Outubro";
+            case 11 -> "Novembro";
+            case 12 -> "Dezembro";
+            default -> "Mês Desconhecido";
+        };
+    }
+
+    private List<EmissaoOutputDTO> converterFormulariosEmEmissoes(List<FormularioMensal> formularios) {
+        return formularios.stream()
+                .map(f -> new EmissaoOutputDTO(converterMes(f.getMesEmitido()), f.getEmissaoCarbonoMensal()))
+                .toList();
     }
 }

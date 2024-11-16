@@ -92,6 +92,72 @@ public class FormularioMensalDAO implements RepositorioFormulariosMensal {
         return formularios;
     }
 
+    @Override
+    public List<FormularioMensal> pegarFormulariosPorAnoComunidade(Long idSindico, Integer ano) {
+        String sqlSelect = "SELECT * FROM TB_FORMULARIO_MENSAL WHERE id_sindico = ? AND ano_emitido = ?";
+        List<FormularioMensal> formularios = new ArrayList<>();
+        try {
+            PreparedStatement statement = conexao.prepareStatement(sqlSelect);
+            statement.setLong(1, idSindico);
+            statement.setInt(2, ano);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                FormularioMensal formularioMensal = new FormularioMensal();
+                formularioMensal.setIdMoradia(rs.getLong("id_moradia"));
+                formularioMensal.setIdSindico(rs.getLong("id_sindico"));
+                formularioMensal.setValorContaLuzMensal(rs.getDouble("valor_conta_luz_mensal"));
+                formularioMensal.setEnergiaGastaMensal(rs.getDouble("energia_gasta_mensal"));
+                formularioMensal.setEmissaoCarbonoMensal(rs.getDouble("emissao_carbono_mensal"));
+                formularioMensal.setNumResidencia(rs.getString("num_moradia"));
+                formularioMensal.setMesEmitido(rs.getInt("mes_emitido"));
+                formularioMensal.setAnoEmitido(rs.getInt("ano_emitido"));
+                formularios.add(formularioMensal);
+            }
+
+
+            statement.close();
+            rs.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return formularios;
+    }
+
+    @Override
+    public List<FormularioMensal> pegarFormulariosPorAnoMoradia(Long idMoradia, Integer ano) {
+        String sqlSelect = "SELECT * FROM TB_FORMULARIO_MENSAL WHERE id_moradia = ? AND ano_emitido = ?";
+        List<FormularioMensal> formularios = new ArrayList<>();
+        try {
+            PreparedStatement statement = conexao.prepareStatement(sqlSelect);
+            statement.setLong(1, idMoradia);
+            statement.setInt(2, ano);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                FormularioMensal formularioMensal = new FormularioMensal();
+                formularioMensal.setIdMoradia(rs.getLong("id_moradia"));
+                formularioMensal.setIdSindico(rs.getLong("id_sindico"));
+                formularioMensal.setValorContaLuzMensal(rs.getDouble("valor_conta_luz_mensal"));
+                formularioMensal.setEnergiaGastaMensal(rs.getDouble("energia_gasta_mensal"));
+                formularioMensal.setEmissaoCarbonoMensal(rs.getDouble("emissao_carbono_mensal"));
+                formularioMensal.setNumResidencia(rs.getString("num_moradia"));
+                formularioMensal.setMesEmitido(rs.getInt("mes_emitido"));
+                formularioMensal.setAnoEmitido(rs.getInt("ano_emitido"));
+                formularios.add(formularioMensal);
+            }
+
+
+            statement.close();
+            rs.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return formularios;
+    }
+
     public void fecharConexao() {
         try {
             conexao.close();
