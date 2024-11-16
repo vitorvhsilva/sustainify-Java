@@ -34,6 +34,12 @@ public class SindicoService {
         repositorioSindicos.fecharConexao();
     }
 
+    public Long retornarSindicoPorCpf(String cpf) {
+        Long idSindico = repositorioSindicos.retornarSindicoPorCpf(cpf);
+        repositorioSindicos.fecharConexao();
+        return idSindico;
+    }
+
     private boolean validarEmail(String email) {
         String emailPattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
         Pattern pattern = Pattern.compile(emailPattern);
@@ -70,4 +76,5 @@ public class SindicoService {
             throw new RuntimeException("CPF inválido! Digite novamente. (Exemplo: 12345678999)");
         }
     }
+
 }

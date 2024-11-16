@@ -87,6 +87,25 @@ public class SindicoDAO implements RepositorioSindicos {
         return existe;
     }
 
+    @Override
+    public Long retornarSindicoPorCpf(String cpf) {
+        String sql = "SELECT * FROM TB_SINDICO WHERE cpf_sindico = ?";
+        Long id = null;
+        try {
+            PreparedStatement ps = conexao.prepareStatement(sql);
+            ps.setString(1, cpf);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                id = rs.getLong("id_sindico");
+            }
+            ps.close();
+            rs.close();
+        }catch(SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return id;
+    }
+
     public void fecharConexao() {
         try {
             conexao.close();

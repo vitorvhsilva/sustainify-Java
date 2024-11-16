@@ -1,7 +1,6 @@
 package br.com.global.controller;
 
 import br.com.global.dto.CadastroSindicoInputDTO;
-import br.com.global.infra.dao.SindicoDAO;
 import br.com.global.service.SindicoService;
 
 import javax.ws.rs.*;
@@ -22,6 +21,22 @@ public class SindicoController {
         try {
             sindicoService.persistirSindicoeComunidade(dto);
             return Response.status(Response.Status.CREATED).build();
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            return Response
+                    .status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(e.getMessage()).build();
+        }
+    }
+
+    @GET
+    @Path("/{cpf}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response retornarSindicoPorCpf(@PathParam("cpf") String cpf){
+        try {
+            Long idSindico = sindicoService.retornarSindicoPorCpf(cpf);
+            return Response.status(Response.Status.OK).entity(idSindico).build();
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();

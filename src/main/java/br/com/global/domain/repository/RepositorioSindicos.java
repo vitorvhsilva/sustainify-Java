@@ -8,4 +8,5 @@ public interface RepositorioSindicos {
     void fecharConexao();
     boolean sindicoExistePorCpf(String cpf);
     boolean sindicoExistePorEmail(String email);
+    Long retornarSindicoPorCpf(String cpf);
 }
