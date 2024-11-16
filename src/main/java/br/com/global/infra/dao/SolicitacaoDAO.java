@@ -20,7 +20,7 @@ public class SolicitacaoDAO implements RepositorioSolicitacoes {
 
     public void persistirSolicitacao(Solicitacao solicitacao) {
         String sqlInsert = """
-                INSERT INTO TB_SOLICITACAO VALUES (?, ?, ?, ?, ?, ?)
+                INSERT INTO TB_SOLICITACAO VALUES (?, ?, ?, ?, ?, ?, ?)
                 """;
 
         try {
@@ -31,6 +31,7 @@ public class SolicitacaoDAO implements RepositorioSolicitacoes {
             ps.setString(4, solicitacao.getCpfMorador());
             ps.setString(5, solicitacao.getCepSolicitacao());
             ps.setString(6, solicitacao.getNumResidenciaSolicitacao());
+            ps.setInt(7, solicitacao.getSolicitacaoAceita());
             ps.execute();
             ps.close();
         } catch (SQLException e) {
@@ -63,6 +64,7 @@ public class SolicitacaoDAO implements RepositorioSolicitacoes {
                 solicitacao.setCpfMorador(rs.getString("cpf_morador"));
                 solicitacao.setCepSolicitacao(rs.getString("cep_solicitacao"));
                 solicitacao.setNumResidenciaSolicitacao(rs.getString("num_residencia_solicitacao"));
+                solicitacao.setSolicitacaoAceita(rs.getInt("solicitacao_aceita"));
                 solicitacoes.add(solicitacao);
             }
 
@@ -91,6 +93,7 @@ public class SolicitacaoDAO implements RepositorioSolicitacoes {
                 solicitacao.setCpfMorador(rs.getString("cpf_morador"));
                 solicitacao.setCepSolicitacao(rs.getString("cep_solicitacao"));
                 solicitacao.setNumResidenciaSolicitacao(rs.getString("num_residencia_solicitacao"));
+                solicitacao.setSolicitacaoAceita(rs.getInt("solicitacao_aceita"));
             }
 
             statement.close();

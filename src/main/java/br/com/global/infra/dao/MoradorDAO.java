@@ -36,7 +36,7 @@ public class MoradorDAO implements RepositorioMoradores {
 
     public void persistirMorador(Morador morador, Long idMorador) {
         String sqlInsert = """
-                INSERT INTO TB_MORADOR VALUES (?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO TB_MORADOR VALUES (?, ?, ?, ?, ?, ?)
                 """;
 
         try {
@@ -47,7 +47,6 @@ public class MoradorDAO implements RepositorioMoradores {
             ps.setString(4, morador.getEmailMorador());
             ps.setString(5, morador.getSenhaMorador());
             ps.setString(6, morador.getTelefoneMorador());
-            ps.setInt(7, morador.getSolicitacaoAceitaMorador());
             ps.execute();
             ps.close();
         } catch (SQLException e) {

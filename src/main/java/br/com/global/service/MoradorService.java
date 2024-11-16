@@ -25,13 +25,13 @@ public class MoradorService {
         validarMorador(dto);
         Long idMorador = repositorioMoradores.obterProximoId();
 
-        Morador morador = new Morador(dto.getNomeMorador(), dto.getCpfMorador(), dto.getEmailMorador(), dto.getSenhaMorador(), dto.getTelefoneMorador(), 0);
+        Morador morador = new Morador(dto.getNomeMorador(), dto.getCpfMorador(), dto.getEmailMorador(), dto.getSenhaMorador(), dto.getTelefoneMorador());
 
         Long idSindico = comunidadeService.retornarSindicoPorCep(dto.getCepSolicitacao());
 
         if (idSindico == null) throw new RuntimeException("Comunidade não existe!");
 
-        Solicitacao solicitacao = new Solicitacao(idMorador, idSindico, dto.getNomeMorador(), dto.getCpfMorador(), dto.getCepSolicitacao(), dto.getNumResidenciaSolicitacao());
+        Solicitacao solicitacao = new Solicitacao(idMorador, idSindico, dto.getNomeMorador(), dto.getCpfMorador(), dto.getCepSolicitacao(), dto.getNumResidenciaSolicitacao(), 0);
         solicitacaoService.verificarSeSolicitacaoExiste(solicitacao);
 
         repositorioMoradores.persistirMorador(morador, idMorador);

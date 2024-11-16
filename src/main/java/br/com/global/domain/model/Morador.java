@@ -13,19 +13,16 @@ public class Morador {
     private String senhaMorador;
     @JsonProperty
     private String telefoneMorador;
-    @JsonProperty
-    private Integer solicitacaoAceitaMorador;
 
     public Morador() {
     }
 
-    public Morador(String nomeMorador, String cpfMorador, String emailMorador, String senhaMorador, String telefoneMorador, Integer solicitacaoAceitaMorador) {
+    public Morador(String nomeMorador, String cpfMorador, String emailMorador, String senhaMorador, String telefoneMorador) {
         this.nomeMorador = nomeMorador;
         this.cpfMorador = cpfMorador;
         this.emailMorador = emailMorador;
         this.senhaMorador = senhaMorador;
         this.telefoneMorador = telefoneMorador;
-        this.solicitacaoAceitaMorador = solicitacaoAceitaMorador;
     }
 
     public String getNomeMorador() {
@@ -66,13 +63,5 @@ public class Morador {
 
     public void setTelefoneMorador(String telefoneMorador) {
         this.telefoneMorador = telefoneMorador;
-    }
-
-    public Integer getSolicitacaoAceitaMorador() {
-        return solicitacaoAceitaMorador;
-    }
-
-    public void setSolicitacaoAceitaMorador(Integer solicitacaoAceitaMorador) {
-        this.solicitacaoAceitaMorador = solicitacaoAceitaMorador;
     }
 }

@@ -15,17 +15,20 @@ public class Solicitacao {
     private String cepSolicitacao;
     @JsonProperty
     private String numResidenciaSolicitacao;
+    @JsonProperty
+    private Integer solicitacaoAceita;
 
     public Solicitacao() {
     }
 
-    public Solicitacao(Long idMorador, Long idSindico, String nomeMorador, String cpfMorador, String cepSolicitacao, String numResidenciaSolicitacao) {
+    public Solicitacao(Long idMorador, Long idSindico, String nomeMorador, String cpfMorador, String cepSolicitacao, String numResidenciaSolicitacao, Integer solicitacaoAceita) {
         this.idMorador = idMorador;
         this.idSindico = idSindico;
         this.nomeMorador = nomeMorador;
         this.cpfMorador = cpfMorador;
         this.cepSolicitacao = cepSolicitacao;
         this.numResidenciaSolicitacao = numResidenciaSolicitacao;
+        this.solicitacaoAceita = solicitacaoAceita;
     }
 
     public Long getIdMorador() {
@@ -74,6 +77,14 @@ public class Solicitacao {
 
     public void setCpfMorador(String cpfMorador) {
         this.cpfMorador = cpfMorador;
+    }
+
+    public Integer getSolicitacaoAceita() {
+        return solicitacaoAceita;
+    }
+
+    public void setSolicitacaoAceita(Integer solicitacaoAceita) {
+        this.solicitacaoAceita = solicitacaoAceita;
     }
 
     @Override
