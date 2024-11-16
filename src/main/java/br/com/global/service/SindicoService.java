@@ -4,7 +4,6 @@ import br.com.global.domain.model.Comunidade;
 import br.com.global.domain.model.Sindico;
 import br.com.global.domain.repository.RepositorioSindicos;
 import br.com.global.dto.CadastroSindicoInputDTO;
-import br.com.global.dto.CadastroSindicoInputDTO;
 import br.com.global.infra.dao.SindicoDAO;
 
 import java.util.regex.Matcher;
@@ -13,10 +12,12 @@ import java.util.regex.Pattern;
 public class SindicoService {
     private RepositorioSindicos repositorioSindicos;
     private ServicosComunidade servicosComunidade;
+    private ServicosPremio servicosPremio;
 
     public SindicoService() {
         this.repositorioSindicos = new SindicoDAO();
         this.servicosComunidade = new ComunidadeService();
+        this.servicosPremio = new PremioService();
     }
 
     public void persistirSindicoeComunidade(CadastroSindicoInputDTO dto) {
@@ -28,6 +29,7 @@ public class SindicoService {
 
         repositorioSindicos.persistirSindico(sindico, idSindico);
         servicosComunidade.persistirComunidade(comunidade);
+        servicosPremio.criarPremiosNaComunidade(comunidade);
 
         repositorioSindicos.fecharConexao();
     }
