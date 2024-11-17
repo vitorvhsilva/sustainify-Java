@@ -5,6 +5,7 @@ import br.com.global.domain.model.Moradia;
 import br.com.global.domain.repository.RepositorioFormulariosMensal;
 import br.com.global.dto.CadastroFormularioMensalInputDTO;
 import br.com.global.dto.EmissaoOutputDTO;
+import br.com.global.dto.EmissaoOutputSQL;
 import br.com.global.infra.dao.FormularioMensalDAO;
 
 import java.util.List;
@@ -46,16 +47,20 @@ public class FormularioMensalService {
         List<FormularioMensal> formulariosMensal = repositorioFormulariosMensal.pegarFormulariosPorAnoMoradia(idMoradia, ano);
         repositorioFormulariosMensal.fecharConexao();
 
-        return converterFormulariosEmEmissoes(formulariosMensal);
+        return formulariosMensal.stream()
+                .map(f -> new EmissaoOutputDTO(converterMes(f.getMesEmitido()), f.getEmissaoCarbonoMensal()))
+                .toList();
     }
 
     public List<EmissaoOutputDTO> pegarEmissoesPorAnoComunidade(Long idMoradia, Integer ano) {
         Long idSindico = moradiaService.pegarSindicoPorMoradia(idMoradia);
         moradiaService.fecharConexao();
-        List<FormularioMensal> formulariosMensal = repositorioFormulariosMensal.pegarFormulariosPorAnoComunidade(idSindico, ano);
+        List<EmissaoOutputSQL> emissoesSQL = repositorioFormulariosMensal.pegarEmissoesPorAnoComunidade(idSindico, ano);
         repositorioFormulariosMensal.fecharConexao();
 
-        return converterFormulariosEmEmissoes(formulariosMensal);
+        return emissoesSQL.stream()
+                .map(e -> new EmissaoOutputDTO(converterMes(e.getMes()), e.getEmissao()))
+                .toList();
     }
 
     private void validarFormulario(FormularioMensal formularioMensal) {
@@ -79,11 +84,5 @@ public class FormularioMensalService {
             case 12 -> "Dezembro";
             default -> "Mês Desconhecido";
         };
-    }
-
-    private List<EmissaoOutputDTO> converterFormulariosEmEmissoes(List<FormularioMensal> formularios) {
-        return formularios.stream()
-                .map(f -> new EmissaoOutputDTO(converterMes(f.getMesEmitido()), f.getEmissaoCarbonoMensal()))
-                .toList();
     }
 }

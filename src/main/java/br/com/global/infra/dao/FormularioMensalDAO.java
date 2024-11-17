@@ -3,6 +3,8 @@ package br.com.global.infra.dao;
 import br.com.global.domain.model.FormularioMensal;
 import br.com.global.domain.model.Solicitacao;
 import br.com.global.domain.repository.RepositorioFormulariosMensal;
+import br.com.global.dto.EmissaoOutputDTO;
+import br.com.global.dto.EmissaoOutputSQL;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -94,9 +96,14 @@ public class FormularioMensalDAO implements RepositorioFormulariosMensal {
     }
 
     @Override
-    public List<FormularioMensal> pegarFormulariosPorAnoComunidade(Long idSindico, Integer ano) {
-        String sqlSelect = "SELECT * FROM TB_FORMULARIO_MENSAL WHERE id_sindico = ? AND ano_emitido = ?";
-        List<FormularioMensal> formularios = new ArrayList<>();
+    public List<EmissaoOutputSQL> pegarEmissoesPorAnoComunidade(Long idSindico, Integer ano) {
+        String sqlSelect = """
+           SELECT mes_emitido AS mes, SUM(emissao_carbono_mensal) AS emissao
+           FROM TB_FORMULARIO_MENSAL WHERE id_sindico = ? AND ano_emitido = ?
+           GROUP BY mes_emitido
+           """;
+
+        List<EmissaoOutputSQL> emissoes = new ArrayList<>();
         try {
             PreparedStatement statement = conexao.prepareStatement(sqlSelect);
             statement.setLong(1, idSindico);
@@ -104,16 +111,8 @@ public class FormularioMensalDAO implements RepositorioFormulariosMensal {
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
-                FormularioMensal formularioMensal = new FormularioMensal();
-                formularioMensal.setIdMoradia(rs.getLong("id_moradia"));
-                formularioMensal.setIdSindico(rs.getLong("id_sindico"));
-                formularioMensal.setValorContaLuzMensal(rs.getDouble("valor_conta_luz_mensal"));
-                formularioMensal.setEnergiaGastaMensal(rs.getDouble("energia_gasta_mensal"));
-                formularioMensal.setEmissaoCarbonoMensal(rs.getDouble("emissao_carbono_mensal"));
-                formularioMensal.setNumResidencia(rs.getString("num_moradia"));
-                formularioMensal.setMesEmitido(rs.getInt("mes_emitido"));
-                formularioMensal.setAnoEmitido(rs.getInt("ano_emitido"));
-                formularios.add(formularioMensal);
+                EmissaoOutputSQL emissao = new EmissaoOutputSQL(rs.getInt("mes"), rs.getDouble("emissao"));
+                emissoes.add(emissao);
             }
 
 
@@ -123,7 +122,7 @@ public class FormularioMensalDAO implements RepositorioFormulariosMensal {
             throw new RuntimeException(e);
         }
 
-        return formularios;
+        return emissoes;
     }
 
     @Override
