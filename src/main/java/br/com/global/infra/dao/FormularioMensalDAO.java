@@ -62,7 +62,7 @@ public class FormularioMensalDAO implements RepositorioFormulariosMensal {
     }
 
     @Override
-    public List<FormularioMensal> pegarFormulariosPorMesAnoComunidade(Long idSindico, Integer mes, Integer ano) {
+    public List<FormularioMensal> pegarFormulariosPorMesAnoSindicoComunidade(Long idSindico, Integer mes, Integer ano) {
         String sqlSelect = "SELECT * FROM TB_FORMULARIO_MENSAL WHERE id_sindico = ? AND mes_emitido = ? AND ano_emitido = ?";
         List<FormularioMensal> formularios = new ArrayList<>();
         try {

@@ -9,7 +9,6 @@ import br.com.global.dto.EmissaoOutputSQL;
 import br.com.global.infra.dao.FormularioMensalDAO;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class FormularioMensalService {
     private RepositorioFormulariosMensal repositorioFormulariosMensal;
@@ -34,13 +33,19 @@ public class FormularioMensalService {
         repositorioFormulariosMensal.fecharConexao();
     }
 
-    public List<FormularioMensal> pegarFormulariosPorMesAnoComunidade(Long idMoradia, Integer mes, Integer ano) {
+    public List<FormularioMensal> pegarFormulariosPorMesAnoMoradiaComunidade(Long idMoradia, Integer mes, Integer ano) {
         Long idSindico = moradiaService.pegarSindicoPorMoradia(idMoradia);
         moradiaService.fecharConexao();
-        List<FormularioMensal> formulariosMensal = repositorioFormulariosMensal.pegarFormulariosPorMesAnoComunidade(idSindico, mes, ano);
+        List<FormularioMensal> formulariosMensal = repositorioFormulariosMensal.pegarFormulariosPorMesAnoSindicoComunidade(idSindico, mes, ano);
         repositorioFormulariosMensal.fecharConexao();
         return formulariosMensal;
 
+    }
+
+    public List<FormularioMensal> pegarFormulariosPorMesAnoSindicoComunidade(Long idSindico, Integer mes, Integer ano) {
+        List<FormularioMensal> formulariosMensal = repositorioFormulariosMensal.pegarFormulariosPorMesAnoSindicoComunidade(idSindico, mes, ano);
+        repositorioFormulariosMensal.fecharConexao();
+        return formulariosMensal;
     }
 
     public List<EmissaoOutputDTO> pegarEmissoesPorAnoMoradia(Long idMoradia, Integer ano) {
@@ -52,10 +57,20 @@ public class FormularioMensalService {
                 .toList();
     }
 
-    public List<EmissaoOutputDTO> pegarEmissoesPorAnoComunidade(Long idMoradia, Integer ano) {
+    public List<EmissaoOutputDTO> pegarEmissoesPorAnoMoradiaComunidade(Long idMoradia, Integer ano) {
         Long idSindico = moradiaService.pegarSindicoPorMoradia(idMoradia);
         moradiaService.fecharConexao();
         List<EmissaoOutputSQL> emissoesSQL = repositorioFormulariosMensal.pegarEmissoesPorAnoComunidade(idSindico, ano);
+        repositorioFormulariosMensal.fecharConexao();
+
+        return emissoesSQL.stream()
+                .map(e -> new EmissaoOutputDTO(converterMes(e.getMes()), e.getEmissao()))
+                .toList();
+    }
+
+    public List<EmissaoOutputDTO> pegarEmissoesPorAnoSindicoComunidade(Long idSindico, Integer ano) {
+        List<EmissaoOutputSQL> emissoesSQL = repositorioFormulariosMensal.pegarEmissoesPorAnoComunidade(idSindico, ano);
+        moradiaService.fecharConexao();
         repositorioFormulariosMensal.fecharConexao();
 
         return emissoesSQL.stream()
@@ -85,4 +100,5 @@ public class FormularioMensalService {
             default -> "Mês Desconhecido";
         };
     }
+
 }
