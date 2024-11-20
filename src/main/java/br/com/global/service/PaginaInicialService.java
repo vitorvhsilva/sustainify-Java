@@ -1,15 +1,11 @@
 package br.com.global.service;
 
-import br.com.global.domain.model.FormularioMensal;
-import br.com.global.domain.model.Morador;
-import br.com.global.domain.model.Premio;
-import br.com.global.domain.repository.RepositorioFormulariosMensal;
-import br.com.global.domain.repository.RepositorioMoradias;
-import br.com.global.domain.repository.RepositorioMoradores;
-import br.com.global.domain.repository.RepositorioPremios;
+import br.com.global.domain.model.*;
+import br.com.global.domain.repository.*;
 import br.com.global.dto.EmissaoOutputDTO;
 import br.com.global.dto.EmissaoOutputSQL;
 import br.com.global.dto.PaginaInicialMoradorDTO;
+import br.com.global.dto.PaginaInicialSindicoDTO;
 import br.com.global.infra.dao.*;
 
 import java.sql.Connection;
@@ -19,19 +15,25 @@ import java.util.List;
 public class PaginaInicialService {
     private Connection conexao;
     private RepositorioMoradores repositorioMoradores;
+    private RepositorioSindicos repositorioSindicos;
     private RepositorioFormulariosMensal repositorioFormulariosMensal;
     private RepositorioMoradias repositorioMoradias;
     private RepositorioPremios repositorioPremios;
+    private RepositorioComunidades repositorioComunidades;
+    private RepositorioSolicitacoes repositorioSolicitacoes;
 
     public PaginaInicialService() {
         this.conexao = new ConnectionFactory().obterConexao();
         this.repositorioMoradores = new MoradorDAO(conexao);
+        this.repositorioSindicos = new SindicoDAO(conexao);
         this.repositorioFormulariosMensal = new FormularioMensalDAO(conexao);
         this.repositorioMoradias = new MoradiaDAO(conexao);
+        this.repositorioComunidades = new ComunidadeDAO(conexao);
+        this.repositorioSolicitacoes = new SolicitacaoDAO(conexao);
         this.repositorioPremios = new PremioDAO(conexao);
     }
 
-    public PaginaInicialMoradorDTO trazerDadosParaPaginaInicial(Long idMorador, Long idMoradia, Integer mes, Integer ano) {
+    public PaginaInicialMoradorDTO trazerDadosParaPaginaInicialMorador(Long idMorador, Long idMoradia, Integer mes, Integer ano) {
         Morador morador = repositorioMoradores.retornarMoradorPorIdMorador(idMorador);
 
         List<FormularioMensal> formulariosMensal = repositorioFormulariosMensal.pegarFormulariosPorAnoMoradia(idMoradia, ano);
@@ -51,6 +53,26 @@ public class PaginaInicialService {
         fecharConexao();
 
         return new PaginaInicialMoradorDTO(morador, emissoesMensal, emissoesAnual, formulariosRanking, premios);
+
+    }
+
+    public PaginaInicialSindicoDTO trazerDadosParaPaginaInicialSindico(Long idSindico, Integer mes, Integer ano) {
+        Sindico sindico = repositorioSindicos.retornarSindicoPorIdSindico(idSindico);
+        Comunidade comunidade = repositorioComunidades.retornarComunidadePorIdSindico(idSindico);
+
+        List<Solicitacao> solicitacoes = repositorioSolicitacoes.pegarSolicitacoesNaComunidadePorCep(comunidade.getCepComunidade());
+        List<FormularioMensal> formulariosMensal = repositorioFormulariosMensal.pegarFormulariosPorMesAnoSindicoComunidade(idSindico, mes, ano);
+
+        List<EmissaoOutputSQL> emissoesSQL = repositorioFormulariosMensal.pegarEmissoesPorAnoComunidade(idSindico, ano);
+
+        List<EmissaoOutputDTO> emissoes = emissoesSQL.stream()
+                .map(e -> new EmissaoOutputDTO(converterMes(e.getMes()), e.getEmissao()))
+                .toList();
+
+        List<Premio> premios = repositorioPremios.pegarPremiosDaComunidade(idSindico);
+        fecharConexao();
+
+        return new PaginaInicialSindicoDTO(sindico, comunidade, solicitacoes, formulariosMensal, emissoes, premios);
 
     }
 
@@ -79,6 +101,5 @@ public class PaginaInicialService {
             throw new RuntimeException(e);
         }
     }
-
 
 }

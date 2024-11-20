@@ -1,6 +1,7 @@
 package br.com.global.controller;
 
 import br.com.global.dto.PaginaInicialMoradorDTO;
+import br.com.global.dto.PaginaInicialSindicoDTO;
 import br.com.global.service.PaginaInicialService;
 
 import javax.ws.rs.GET;
@@ -21,10 +22,27 @@ public class PaginaInicialController {
     @GET
     @Path("/morador/{idMorador}/{idMoradia}/{mesAtual}/{anoAtual}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response trazerDadosParaPaginaInicial(@PathParam("idMorador") Long idMorador, @PathParam("idMoradia") Long idMoradia,
+    public Response trazerDadosParaPaginaInicialMorador(@PathParam("idMorador") Long idMorador, @PathParam("idMoradia") Long idMoradia,
                                                    @PathParam("mesAtual") Integer mes, @PathParam("anoAtual") Integer ano) {
         try {
-            PaginaInicialMoradorDTO dto = paginaInicialService.trazerDadosParaPaginaInicial(idMorador, idMoradia, mes, ano);
+            PaginaInicialMoradorDTO dto = paginaInicialService.trazerDadosParaPaginaInicialMorador(idMorador, idMoradia, mes, ano);
+            return Response.status(Response.Status.OK).entity(dto).build();
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            return Response
+                    .status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(e.getMessage()).build();
+        }
+    }
+
+    @GET
+    @Path("/sindico/{idSindico}/{mesAtual}/{anoAtual}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response trazerDadosParaPaginaInicialSindico(@PathParam("idSindico") Long idSindico,
+                                                 @PathParam("mesAtual") Integer mes, @PathParam("anoAtual") Integer ano) {
+        try {
+            PaginaInicialSindicoDTO dto = paginaInicialService.trazerDadosParaPaginaInicialSindico(idSindico, mes, ano);
             return Response.status(Response.Status.OK).entity(dto).build();
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
