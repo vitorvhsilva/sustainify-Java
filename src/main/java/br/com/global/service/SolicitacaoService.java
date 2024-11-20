@@ -2,19 +2,21 @@ package br.com.global.service;
 
 import br.com.global.domain.model.Moradia;
 import br.com.global.domain.model.Solicitacao;
+import br.com.global.domain.repository.RepositorioMoradias;
 import br.com.global.domain.repository.RepositorioSolicitacoes;
 import br.com.global.dto.AtualizarStatusSolicitacaoDTO;
+import br.com.global.infra.dao.MoradiaDAO;
 import br.com.global.infra.dao.SolicitacaoDAO;
 
 import java.util.List;
 
 public class SolicitacaoService{
     private RepositorioSolicitacoes repositorioSolicitacoes;
-    private MoradiaService moradiaService;
+    private RepositorioMoradias repositorioMoradias;
 
     public SolicitacaoService() {
         this.repositorioSolicitacoes = new SolicitacaoDAO();
-        this.moradiaService = new MoradiaService();
+        this.repositorioMoradias = new MoradiaDAO();
     }
 
     public void persistirSolicitacao(Solicitacao solicitacao) {
@@ -43,7 +45,7 @@ public class SolicitacaoService{
 
         Moradia moradia = new Moradia(dto.getIdMorador(), dto.getIdSindico() ,dto.getNumMoradia());
 
-        moradiaService.persistirMoradia(moradia);
+        repositorioMoradias.persistirMoradia(moradia);
         repositorioSolicitacoes.fecharConexao();
     }
 

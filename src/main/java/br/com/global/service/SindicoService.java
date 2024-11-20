@@ -1,10 +1,15 @@
 package br.com.global.service;
 
 import br.com.global.domain.model.Comunidade;
+import br.com.global.domain.model.Premio;
 import br.com.global.domain.model.Sindico;
+import br.com.global.domain.repository.RepositorioComunidades;
+import br.com.global.domain.repository.RepositorioPremios;
 import br.com.global.domain.repository.RepositorioSindicos;
 import br.com.global.dto.CadastroSindicoInputDTO;
 import br.com.global.dto.LoginDTO;
+import br.com.global.infra.dao.ComunidadeDAO;
+import br.com.global.infra.dao.PremioDAO;
 import br.com.global.infra.dao.SindicoDAO;
 
 import java.util.regex.Matcher;
@@ -12,13 +17,13 @@ import java.util.regex.Pattern;
 
 public class SindicoService {
     private RepositorioSindicos repositorioSindicos;
-    private ComunidadeService comunidadeService;
-    private PremioService premioService;
+    private RepositorioComunidades repositorioComunidades;
+    private RepositorioPremios repositorioPremios;
 
     public SindicoService() {
         this.repositorioSindicos = new SindicoDAO();
-        this.comunidadeService = new ComunidadeService();
-        this.premioService = new PremioService();
+        this.repositorioComunidades = new ComunidadeDAO();
+        this.repositorioPremios = new PremioDAO();
     }
 
     public void persistirSindicoeComunidade(CadastroSindicoInputDTO dto) {
@@ -28,9 +33,18 @@ public class SindicoService {
 
         Comunidade comunidade = new Comunidade(idSindico, dto.getRuaComunidade(), dto.getNumComunidade(), dto.getCepComunidade());
 
+        if (repositorioComunidades.verificarSeComunidadeExistePorCep(comunidade.getCepComunidade())) throw new RuntimeException("Comunidade já existe!");
+
         repositorioSindicos.persistirSindico(sindico, idSindico);
-        comunidadeService.persistirComunidade(comunidade);
-        premioService.criarPremiosNaComunidade(comunidade);
+        repositorioComunidades.persistirComunidade(comunidade);
+
+        Premio premio1 = new Premio(comunidade.getIdSindico(), 1, "");
+        Premio premio2 = new Premio(comunidade.getIdSindico(), 2, "");
+        Premio premio3 = new Premio(comunidade.getIdSindico(), 3, "");
+
+        repositorioPremios.persistirPremio(premio1);
+        repositorioPremios.persistirPremio(premio2);
+        repositorioPremios.persistirPremio(premio3);
 
         repositorioSindicos.fecharConexao();
     }

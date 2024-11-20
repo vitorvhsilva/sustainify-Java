@@ -2,23 +2,27 @@ package br.com.global.service;
 
 import br.com.global.domain.model.Morador;
 import br.com.global.domain.model.Solicitacao;
+import br.com.global.domain.repository.RepositorioComunidades;
 import br.com.global.domain.repository.RepositorioMoradores;
+import br.com.global.domain.repository.RepositorioSolicitacoes;
 import br.com.global.dto.CadastroMoradorInputDTO;
 import br.com.global.dto.LoginDTO;
+import br.com.global.infra.dao.ComunidadeDAO;
 import br.com.global.infra.dao.MoradorDAO;
+import br.com.global.infra.dao.SolicitacaoDAO;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MoradorService {
     private RepositorioMoradores repositorioMoradores;
-    private SolicitacaoService solicitacaoService;
-    private ComunidadeService comunidadeService;
+    private RepositorioSolicitacoes repositorioSolicitacoes;
+    private RepositorioComunidades repositorioComunidades;
 
     public MoradorService() {
         this.repositorioMoradores = new MoradorDAO();
-        this.solicitacaoService = new SolicitacaoService();
-        this.comunidadeService = new ComunidadeService();
+        this.repositorioSolicitacoes = new SolicitacaoDAO();
+        this.repositorioComunidades = new ComunidadeDAO();
     }
 
     public void enviarSolicitacaoDeCadastro(CadastroMoradorInputDTO dto) {
@@ -27,15 +31,17 @@ public class MoradorService {
 
         Morador morador = new Morador(dto.getNomeMorador(), dto.getCpfMorador(), dto.getEmailMorador(), dto.getSenhaMorador(), dto.getTelefoneMorador());
 
-        Long idSindico = comunidadeService.retornarSindicoPorCep(dto.getCepSolicitacao());
+        Long idSindico = repositorioComunidades.retornarSindicoPorCep(dto.getCepSolicitacao());
 
         if (idSindico == null) throw new RuntimeException("Comunidade não existe!");
 
         Solicitacao solicitacao = new Solicitacao(idMorador, idSindico, dto.getNomeMorador(), dto.getCpfMorador(), dto.getCepSolicitacao(), dto.getNumResidenciaSolicitacao(), 0);
-        solicitacaoService.verificarSeSolicitacaoExiste(solicitacao);
+
+        Solicitacao solicitacaoPega = repositorioSolicitacoes.verificarSeSolicitacaoExiste(solicitacao);
+        if (solicitacaoPega.getNumResidenciaSolicitacao() != null) throw new RuntimeException("Solicitação já existe");
 
         repositorioMoradores.persistirMorador(morador, idMorador);
-        solicitacaoService.persistirSolicitacao(solicitacao);
+        repositorioSolicitacoes.persistirSolicitacao(solicitacao);
 
         repositorioMoradores.fecharConexao();
     }

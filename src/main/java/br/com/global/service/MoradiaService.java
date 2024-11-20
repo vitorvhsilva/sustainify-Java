@@ -3,17 +3,19 @@ package br.com.global.service;
 import br.com.global.domain.model.Moradia;
 import br.com.global.domain.model.Premio;
 import br.com.global.domain.repository.RepositorioMoradias;
+import br.com.global.domain.repository.RepositorioPremios;
 import br.com.global.infra.dao.MoradiaDAO;
+import br.com.global.infra.dao.PremioDAO;
 
 import java.util.List;
 
 public class MoradiaService {
     private RepositorioMoradias repositorioMoradias;
-    private PremioService premioService;
+    private RepositorioPremios repositorioPremios;
 
     public MoradiaService() {
         this.repositorioMoradias = new MoradiaDAO();
-        this.premioService = new PremioService();
+        this.repositorioPremios = new PremioDAO();
     }
 
     public void persistirMoradia(Moradia moradia) {
@@ -29,7 +31,7 @@ public class MoradiaService {
 
     public List<Premio> pegarPremiosPorMoradia(Long idMoradia) {
         Long idSindico = repositorioMoradias.pegarSindicoPorMoradia(idMoradia);
-        List<Premio> premios = premioService.pegarPremiosDaComunidade(idSindico);
+        List<Premio> premios = repositorioPremios.pegarPremiosDaComunidade(idSindico);
         repositorioMoradias.fecharConexao();
         return premios;
     }
