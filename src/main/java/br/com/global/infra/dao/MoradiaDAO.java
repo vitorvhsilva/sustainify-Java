@@ -14,8 +14,8 @@ import java.sql.SQLException;
 public class MoradiaDAO implements RepositorioMoradias {
     private Connection conexao;
 
-    public MoradiaDAO() {
-        this.conexao = new ConnectionFactory().obterConexao();
+    public MoradiaDAO(Connection conexao) {
+        this.conexao = conexao;
     }
 
     public Long obterProximoId() {

@@ -4,35 +4,40 @@ import br.com.global.domain.model.Moradia;
 import br.com.global.domain.model.Premio;
 import br.com.global.domain.repository.RepositorioMoradias;
 import br.com.global.domain.repository.RepositorioPremios;
+import br.com.global.infra.dao.ConnectionFactory;
 import br.com.global.infra.dao.MoradiaDAO;
 import br.com.global.infra.dao.PremioDAO;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 public class MoradiaService {
+    private Connection conexao;
     private RepositorioMoradias repositorioMoradias;
     private RepositorioPremios repositorioPremios;
 
     public MoradiaService() {
-        this.repositorioMoradias = new MoradiaDAO();
-        this.repositorioPremios = new PremioDAO();
+        this.conexao = new ConnectionFactory().obterConexao();
+        this.repositorioMoradias = new MoradiaDAO(conexao);
+        this.repositorioPremios = new PremioDAO(conexao);
     }
 
     public void persistirMoradia(Moradia moradia) {
         repositorioMoradias.persistirMoradia(moradia);
-        repositorioMoradias.fecharConexao();
+        fecharConexao();
     }
 
     public Long pegarMoradiaPorMorador(String numResidencia) {
         Long idMoradia = repositorioMoradias.pegarMoradiaPorMorador(numResidencia);
-        repositorioMoradias.fecharConexao();
+        fecharConexao();
         return idMoradia;
     }
 
     public List<Premio> pegarPremiosPorMoradia(Long idMoradia) {
         Long idSindico = repositorioMoradias.pegarSindicoPorMoradia(idMoradia);
         List<Premio> premios = repositorioPremios.pegarPremiosDaComunidade(idSindico);
-        repositorioMoradias.fecharConexao();
+        fecharConexao();
         return premios;
     }
 
@@ -45,6 +50,11 @@ public class MoradiaService {
     }
 
     public void fecharConexao() {
-        repositorioMoradias.fecharConexao();
+        try {
+            conexao.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
+
 }

@@ -5,28 +5,33 @@ import br.com.global.domain.model.Solicitacao;
 import br.com.global.domain.repository.RepositorioMoradias;
 import br.com.global.domain.repository.RepositorioSolicitacoes;
 import br.com.global.dto.AtualizarStatusSolicitacaoDTO;
+import br.com.global.infra.dao.ConnectionFactory;
 import br.com.global.infra.dao.MoradiaDAO;
 import br.com.global.infra.dao.SolicitacaoDAO;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 public class SolicitacaoService{
+    private Connection conexao;
     private RepositorioSolicitacoes repositorioSolicitacoes;
     private RepositorioMoradias repositorioMoradias;
 
     public SolicitacaoService() {
-        this.repositorioSolicitacoes = new SolicitacaoDAO();
-        this.repositorioMoradias = new MoradiaDAO();
+        this.conexao = new ConnectionFactory().obterConexao();
+        this.repositorioSolicitacoes = new SolicitacaoDAO(conexao);
+        this.repositorioMoradias = new MoradiaDAO(conexao);
     }
 
     public void persistirSolicitacao(Solicitacao solicitacao) {
         repositorioSolicitacoes.persistirSolicitacao(solicitacao);
-        repositorioSolicitacoes.fecharConexao();
+        fecharConexao();
     }
 
     public List<Solicitacao> pegarSolicitacoesNaComunidadePorCep(String cep) {
         List<Solicitacao> solicitacoes = repositorioSolicitacoes.pegarSolicitacoesNaComunidadePorCep(cep);
-        repositorioSolicitacoes.fecharConexao();
+        fecharConexao();
         return solicitacoes;
     }
 
@@ -37,7 +42,7 @@ public class SolicitacaoService{
 
     public void deletarSolicitacao(Long idMorador) {
         repositorioSolicitacoes.deletarSolicitacao(idMorador);
-        repositorioSolicitacoes.fecharConexao();
+        fecharConexao();
     }
 
     public void atualizarSolicitacao(AtualizarStatusSolicitacaoDTO dto) {
@@ -46,12 +51,20 @@ public class SolicitacaoService{
         Moradia moradia = new Moradia(dto.getIdMorador(), dto.getIdSindico() ,dto.getNumMoradia());
 
         repositorioMoradias.persistirMoradia(moradia);
-        repositorioSolicitacoes.fecharConexao();
+        fecharConexao();
     }
 
     public List<Solicitacao> pegarSolicitacoesNaComunidadePorMorador(Long idMorador) {
         List<Solicitacao> solicitacoes = repositorioSolicitacoes.pegarSolicitacoesNaComunidadePorMorador(idMorador);
-        repositorioSolicitacoes.fecharConexao();
+        fecharConexao();
         return solicitacoes;
+    }
+
+    public void fecharConexao() {
+        try {
+            conexao.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

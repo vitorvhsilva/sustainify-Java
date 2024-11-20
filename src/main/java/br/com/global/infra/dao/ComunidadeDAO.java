@@ -13,8 +13,8 @@ import java.sql.SQLException;
 public class ComunidadeDAO implements RepositorioComunidades {
     private Connection conexao;
 
-    public ComunidadeDAO() {
-        this.conexao = new ConnectionFactory().obterConexao();
+    public ComunidadeDAO(Connection conexao) {
+        this.conexao = conexao;
     }
 
     public Long obterProximoId() {

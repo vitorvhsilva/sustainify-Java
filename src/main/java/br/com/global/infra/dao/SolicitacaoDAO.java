@@ -14,8 +14,8 @@ import java.util.List;
 public class SolicitacaoDAO implements RepositorioSolicitacoes {
     private Connection conexao;
 
-    public SolicitacaoDAO() {
-        this.conexao = new ConnectionFactory().obterConexao();
+    public SolicitacaoDAO(Connection conexao) {
+        this.conexao = conexao;
     }
 
     public void persistirSolicitacao(Solicitacao solicitacao) {

@@ -13,8 +13,8 @@ import java.sql.SQLException;
 public class MoradorDAO implements RepositorioMoradores {
     private Connection conexao;
 
-    public MoradorDAO() {
-        this.conexao = new ConnectionFactory().obterConexao();
+    public MoradorDAO(Connection conexao) {
+        this.conexao = conexao;
     }
 
     public Long obterProximoId() {

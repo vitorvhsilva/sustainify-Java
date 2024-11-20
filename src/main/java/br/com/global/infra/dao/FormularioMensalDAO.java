@@ -16,8 +16,8 @@ import java.util.List;
 public class FormularioMensalDAO implements RepositorioFormulariosMensal {
     private Connection conexao;
 
-    public FormularioMensalDAO() {
-        this.conexao = new ConnectionFactory().obterConexao();
+    public FormularioMensalDAO(Connection conexao) {
+        this.conexao = conexao;
     }
 
     public Long obterProximoId() {

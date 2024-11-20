@@ -12,8 +12,8 @@ import java.sql.SQLException;
 public class SindicoDAO implements RepositorioSindicos {
     private Connection conexao;
 
-    public SindicoDAO() {
-        this.conexao = new ConnectionFactory().obterConexao();
+    public SindicoDAO(Connection conexao) {
+        this.conexao = conexao;
     }
 
     public Long obterProximoId() {

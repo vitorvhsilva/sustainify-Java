@@ -7,7 +7,6 @@ public interface RepositorioComunidades {
     Long obterProximoId();
     void persistirComunidade(Comunidade comunidade);
     Long retornarSindicoPorCep(String cep);
-    void fecharConexao();
     boolean verificarSeComunidadeExistePorCep(String cep);
     Comunidade retornarComunidadePorIdSindico(Long idSindico);
 }

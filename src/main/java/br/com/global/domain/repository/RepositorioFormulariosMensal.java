@@ -9,7 +9,6 @@ import java.util.List;
 public interface RepositorioFormulariosMensal {
     Long obterProximoId();
     void persistirFormularioMensal(FormularioMensal formularioMensal);
-    void fecharConexao();
     List<FormularioMensal> pegarFormulariosPorAnoMoradia(Long idMoradia, Integer ano);
     FormularioMensal verificarSeFormularioExiste(FormularioMensal formularioMensal);
     List<EmissaoOutputSQL> pegarEmissoesPorAnoComunidade(Long idSindico, Integer ano);

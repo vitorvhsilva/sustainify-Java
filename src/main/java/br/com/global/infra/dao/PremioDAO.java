@@ -13,8 +13,8 @@ import java.util.List;
 public class PremioDAO implements RepositorioPremios {
     private Connection conexao;
 
-    public PremioDAO() {
-        this.conexao = new ConnectionFactory().obterConexao();
+    public PremioDAO(Connection conexao) {
+        this.conexao = conexao;
     }
 
     @Override

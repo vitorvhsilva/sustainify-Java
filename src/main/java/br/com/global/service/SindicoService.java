@@ -9,21 +9,26 @@ import br.com.global.domain.repository.RepositorioSindicos;
 import br.com.global.dto.CadastroSindicoInputDTO;
 import br.com.global.dto.LoginDTO;
 import br.com.global.infra.dao.ComunidadeDAO;
+import br.com.global.infra.dao.ConnectionFactory;
 import br.com.global.infra.dao.PremioDAO;
 import br.com.global.infra.dao.SindicoDAO;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SindicoService {
+    private Connection conexao;
     private RepositorioSindicos repositorioSindicos;
     private RepositorioComunidades repositorioComunidades;
     private RepositorioPremios repositorioPremios;
 
     public SindicoService() {
-        this.repositorioSindicos = new SindicoDAO();
-        this.repositorioComunidades = new ComunidadeDAO();
-        this.repositorioPremios = new PremioDAO();
+        this.conexao = new ConnectionFactory().obterConexao();
+        this.repositorioSindicos = new SindicoDAO(conexao);
+        this.repositorioComunidades = new ComunidadeDAO(conexao);
+        this.repositorioPremios = new PremioDAO(conexao);
     }
 
     public void persistirSindicoeComunidade(CadastroSindicoInputDTO dto) {
@@ -46,25 +51,25 @@ public class SindicoService {
         repositorioPremios.persistirPremio(premio2);
         repositorioPremios.persistirPremio(premio3);
 
-        repositorioSindicos.fecharConexao();
+        fecharConexao();
     }
 
     public Long retornarIdDoSindicoPorCpf(String cpf) {
         Long idSindico = repositorioSindicos.retornarIdDoSindicoPorCpf(cpf);
-        repositorioSindicos.fecharConexao();
+        fecharConexao();
         return idSindico;
     }
 
 
     public Sindico retornarSindicoPorIdSindico(Long idSindico) {
         Sindico sindico = repositorioSindicos.retornarSindicoPorIdSindico(idSindico);
-        repositorioSindicos.fecharConexao();
+        fecharConexao();
         return sindico;
     }
 
     public Long fazerLogin(LoginDTO dto) {
         Long idSindico = repositorioSindicos.fazerLogin(dto);
-        repositorioSindicos.fecharConexao();
+        fecharConexao();
         return idSindico;
     }
 
@@ -102,6 +107,14 @@ public class SindicoService {
 
         if (dto.getCpfSindico().length() != 11) {
             throw new RuntimeException("CPF inválido! Digite novamente. (Exemplo: 12345678999)");
+        }
+    }
+
+    public void fecharConexao() {
+        try {
+            conexao.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

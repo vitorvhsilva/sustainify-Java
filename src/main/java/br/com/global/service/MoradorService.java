@@ -8,21 +8,26 @@ import br.com.global.domain.repository.RepositorioSolicitacoes;
 import br.com.global.dto.CadastroMoradorInputDTO;
 import br.com.global.dto.LoginDTO;
 import br.com.global.infra.dao.ComunidadeDAO;
+import br.com.global.infra.dao.ConnectionFactory;
 import br.com.global.infra.dao.MoradorDAO;
 import br.com.global.infra.dao.SolicitacaoDAO;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MoradorService {
+    private Connection conexao;
     private RepositorioMoradores repositorioMoradores;
     private RepositorioSolicitacoes repositorioSolicitacoes;
     private RepositorioComunidades repositorioComunidades;
 
     public MoradorService() {
-        this.repositorioMoradores = new MoradorDAO();
-        this.repositorioSolicitacoes = new SolicitacaoDAO();
-        this.repositorioComunidades = new ComunidadeDAO();
+        this.conexao = new ConnectionFactory().obterConexao();
+        this.repositorioMoradores = new MoradorDAO(conexao);
+        this.repositorioSolicitacoes = new SolicitacaoDAO(conexao);
+        this.repositorioComunidades = new ComunidadeDAO(conexao);
     }
 
     public void enviarSolicitacaoDeCadastro(CadastroMoradorInputDTO dto) {
@@ -43,18 +48,18 @@ public class MoradorService {
         repositorioMoradores.persistirMorador(morador, idMorador);
         repositorioSolicitacoes.persistirSolicitacao(solicitacao);
 
-        repositorioMoradores.fecharConexao();
+        fecharConexao();
     }
 
     public Long fazerLogin(LoginDTO dto) {
         Long idMorador = repositorioMoradores.fazerLogin(dto);
-        repositorioMoradores.fecharConexao();
+        fecharConexao();
         return idMorador;
     }
 
     public Morador retornarMoradorPorIdMorador(Long idMorador) {
         Morador morador = repositorioMoradores.retornarMoradorPorIdMorador(idMorador);
-        repositorioMoradores.fecharConexao();
+        fecharConexao();
         return morador;
     }
 
@@ -92,6 +97,14 @@ public class MoradorService {
 
         if (dto.getCpfMorador().length() != 11) {
             throw new RuntimeException("CPF inválido! Digite novamente. (Exemplo: 12345678999)");
+        }
+    }
+
+    public void fecharConexao() {
+        try {
+            conexao.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
