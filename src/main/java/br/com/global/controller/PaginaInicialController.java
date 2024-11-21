@@ -20,7 +20,7 @@ public class PaginaInicialController {
     }
 
     @GET
-    @Path("/morador/{idMorador}/{idMoradia}/{mesAtual}/{anoAtual}")
+    @Path("/moradores/{idMorador}/{idMoradia}/{anoAtual}/{mesAtual}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response trazerDadosParaPaginaInicialMorador(@PathParam("idMorador") Long idMorador, @PathParam("idMoradia") Long idMoradia,
                                                    @PathParam("mesAtual") Integer mes, @PathParam("anoAtual") Integer ano) {
@@ -37,7 +37,7 @@ public class PaginaInicialController {
     }
 
     @GET
-    @Path("/sindico/{idSindico}/{mesAtual}/{anoAtual}")
+    @Path("/sindicos/{idSindico}/{anoAtual}/{mesAtual}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response trazerDadosParaPaginaInicialSindico(@PathParam("idSindico") Long idSindico,
                                                  @PathParam("mesAtual") Integer mes, @PathParam("anoAtual") Integer ano) {

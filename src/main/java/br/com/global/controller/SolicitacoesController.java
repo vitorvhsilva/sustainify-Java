@@ -34,7 +34,7 @@ public class SolicitacoesController {
     }
 
     @GET
-    @Path("/morador/{idMorador}")
+    @Path("/moradores/{idMorador}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response pegarSolicitacoesNaComunidadePorMorador(@PathParam("idMorador") Long idMorador){
         try {
@@ -54,7 +54,7 @@ public class SolicitacoesController {
     public Response deletarSolicitacao(@PathParam("idMorador") Long idMorador){
         try {
             solicitacaoService.deletarSolicitacao(idMorador);
-            return Response.status(Response.Status.NO_CONTENT).build();
+            return Response.status(Response.Status.OK).build();
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
