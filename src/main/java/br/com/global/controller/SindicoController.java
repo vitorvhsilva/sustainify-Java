@@ -66,7 +66,7 @@ public class SindicoController {
     }
 
     @GET
-    @Path("/id/{cpf}")
+    @Path("/cpf/{cpf}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response retornarIdDoSindicoPorCpf(@PathParam("cpf") String cpf){
         try {

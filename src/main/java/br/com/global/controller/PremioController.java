@@ -33,7 +33,7 @@ public class PremioController {
     }
 
     @PUT
-    public Response atualizarStatusAtualizacao(Premio premio){
+    public Response atualizarPremio(Premio premio){
         try {
             premioService.atualizarPremio(premio);
             return Response.status(Response.Status.OK).build();
