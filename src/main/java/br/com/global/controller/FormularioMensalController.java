@@ -50,7 +50,7 @@ public class FormularioMensalController {
     }
 
     @GET
-    @Path("/comunidade/sindico/{idSindico}/{ano}")
+    @Path("/comunidades/sindicos/{idSindico}/{ano}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response pegarEmissoesPorAnoSindicoComunidade(@PathParam("idSindico") Long idSindico, @PathParam("ano") Integer ano){
         try {
@@ -66,7 +66,7 @@ public class FormularioMensalController {
     }
 
     @GET
-    @Path("/comunidade/morador/{idMoradia}/{ano}")
+    @Path("/comunidades/moradores/{idMoradia}/{ano}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response pegarEmissoesPorAnoMoradiaComunidade(@PathParam("idMoradia") Long idMoradia, @PathParam("ano") Integer ano){
         try {
@@ -82,7 +82,7 @@ public class FormularioMensalController {
     }
 
     @GET
-    @Path("/comunidade/morador/{idMoradia}/{ano}/{mes}")
+    @Path("/comunidades/moradores/{idMoradia}/{ano}/{mes}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response pegarFormulariosPorMesAnoMoradiaComunidade(@PathParam("idMoradia") Long idMoradia, @PathParam("mes") Integer mes, @PathParam("ano") Integer ano){
         try {
@@ -98,7 +98,7 @@ public class FormularioMensalController {
     }
 
     @GET
-    @Path("/comunidade/sindico/{idSindico}/{ano}/{mes}")
+    @Path("/comunidades/sindicos/{idSindico}/{ano}/{mes}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response pegarFormulariosPorMesAnoSindicoComunidade(@PathParam("idSindico") Long idSindico, @PathParam("mes") Integer mes, @PathParam("ano") Integer ano){
         try {
